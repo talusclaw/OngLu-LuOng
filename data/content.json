@@ -1,0 +1,56 @@
+{
+  "family": {
+    "name": "OngLu / Luong",
+    "tagline": "One Year of Family, Love & Memories",
+    "anniversary": "2025 – 2026",
+    "story": "What a year it has been. From the very first moments together to every laugh, every meal shared, and every memory made — this family has grown into something truly beautiful. Today we pause to celebrate not just a milestone, but everything that brought us here."
+  },
+  "timeline": [
+    {
+      "month": "Spring",
+      "emoji": "🌸",
+      "title": "Where It All Began",
+      "description": "The OngLu and Luong families came together for the first time, laying the foundation for something that would grow beyond what any of us imagined."
+    },
+    {
+      "month": "Summer",
+      "emoji": "☀️",
+      "title": "Celebrations & Gatherings",
+      "description": "Long afternoons, outdoor dinners, and the kind of laughter that carries into the evening. Summer brought the family closer, one gathering at a time."
+    },
+    {
+      "month": "Autumn",
+      "emoji": "🍂",
+      "title": "Roots Growing Deeper",
+      "description": "As the leaves changed, so did we — learning each other's rhythms, traditions, and stories. The family tree grew stronger with every shared moment."
+    },
+    {
+      "month": "Winter",
+      "emoji": "❄️",
+      "title": "Warmth Through the Cold",
+      "description": "Holidays, warmth, and the quiet joy of belonging. Winter reminded us that no matter the season, family is always the warmest place to be."
+    }
+  ],
+  "gallery": [
+    { "id": 1, "caption": "Spring Gathering" },
+    { "id": 2, "caption": "Summer Celebration" },
+    { "id": 3, "caption": "Family Dinner" },
+    { "id": 4, "caption": "Autumn Walk" },
+    { "id": 5, "caption": "Winter Holidays" },
+    { "id": 6, "caption": "Together" }
+  ],
+  "messages": [
+    {
+      "author": "The OngLu Family",
+      "message": "To the Luong family — thank you for opening your hearts and your home. This year has been a gift we will carry with us always."
+    },
+    {
+      "author": "The Luong Family",
+      "message": "Every family dinner, every story shared, every moment of joy — this year has given us a new definition of home. Here's to many more."
+    },
+    {
+      "author": "Together",
+      "message": "May this be the first of many anniversaries we celebrate side by side. With gratitude, laughter, and love — always."
+    }
+  ]
+}
