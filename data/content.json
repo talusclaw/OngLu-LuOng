@@ -32,30 +32,12 @@
     }
   ],
   "gallery": [
-    {
-      "id": 1,
-      "caption": "Spring Gathering"
-    },
-    {
-      "id": 2,
-      "caption": "Summer Celebration"
-    },
-    {
-      "id": 3,
-      "caption": "Family Dinner"
-    },
-    {
-      "id": 4,
-      "caption": "Autumn Walk"
-    },
-    {
-      "id": 5,
-      "caption": "Winter Holidays"
-    },
-    {
-      "id": 6,
-      "caption": "Together"
-    }
+    { "id": 1, "caption": "Spring Gathering", "url": null },
+    { "id": 2, "caption": "Summer Celebration", "url": null },
+    { "id": 3, "caption": "Family Dinner", "url": null },
+    { "id": 4, "caption": "Autumn Walk", "url": null },
+    { "id": 5, "caption": "Winter Holidays", "url": null },
+    { "id": 6, "caption": "Together", "url": null }
   ],
   "messages": [
     {

@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --gold: #C9A84C;
-  --gold-light: #E8D5A3;
-  --cream: #FDF8F0;
-  --brown: #7A5C3A;
-  --dark: #2C1A0E;
-  --soft-red: #C0392B;
+  --purple: #7C3AED;
+  --purple-mid: #6D28D9;
+  --purple-dark: #2E1065;
+  --purple-light: #EDE9FE;
+  --purple-bg: #F5F3FF;
+  --green: #059669;
+  --green-mid: #10B981;
+  --green-light: #D1FAE5;
+  --green-bg: #ECFDF5;
+  --card: #FEFCFF;
+  --border: #DDD6FE;
+  --dark: #1E1B4B;
 }
 
 @theme inline {
-  --color-gold: var(--gold);
-  --color-gold-light: var(--gold-light);
-  --color-cream: var(--cream);
-  --color-brown: var(--brown);
-  --color-dark: var(--dark);
+  --color-purple: var(--purple);
+  --color-purple-dark: var(--purple-dark);
+  --color-purple-light: var(--purple-light);
+  --color-green: var(--green);
+  --color-green-light: var(--green-light);
   --font-display: var(--font-cormorant);
   --font-sans: var(--font-inter);
 }
@@ -24,24 +30,13 @@ html {
 }
 
 body {
-  background: var(--cream);
+  background: var(--purple-bg);
   color: var(--dark);
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 .font-display {
   font-family: var(--font-cormorant), Georgia, serif;
-}
-
-.divider-ornament::before,
-.divider-ornament::after {
-  content: '';
-  display: inline-block;
-  width: 60px;
-  height: 1px;
-  background: var(--gold);
-  vertical-align: middle;
-  margin: 0 12px;
 }
 
 @keyframes fadeInUp {
