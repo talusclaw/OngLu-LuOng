@@ -1,7 +1,7 @@
 {
   "family": {
     "name": "OngLu / LuOng",
-    "tagline": "One Year of Family, Love & Memories",
+    "tagline": "One Year of Love, Joy, and Wonder ",
     "anniversary": "2025 – 2026",
     "story": "What a year it has been. From the very first moments together to every laugh, every meal shared, and every memory made — this family has grown into something truly beautiful. Today we pause to celebrate not just a milestone, but everything that brought us here."
   },
@@ -32,12 +32,36 @@
     }
   ],
   "gallery": [
-    { "id": 1, "caption": "Spring Gathering", "url": null },
-    { "id": 2, "caption": "Summer Celebration", "url": null },
-    { "id": 3, "caption": "Family Dinner", "url": null },
-    { "id": 4, "caption": "Autumn Walk", "url": null },
-    { "id": 5, "caption": "Winter Holidays", "url": null },
-    { "id": 6, "caption": "Together", "url": null }
+    {
+      "id": 1,
+      "caption": "Spring Gathering",
+      "url": null
+    },
+    {
+      "id": 2,
+      "caption": "Summer Celebration",
+      "url": null
+    },
+    {
+      "id": 3,
+      "caption": "Family Dinner",
+      "url": null
+    },
+    {
+      "id": 4,
+      "caption": "Autumn Walk",
+      "url": null
+    },
+    {
+      "id": 5,
+      "caption": "Winter Holidays",
+      "url": null
+    },
+    {
+      "id": 6,
+      "caption": "Together",
+      "url": null
+    }
   ],
   "messages": [
     {
