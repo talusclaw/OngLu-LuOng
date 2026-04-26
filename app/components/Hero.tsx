@@ -9,12 +9,13 @@ export default function Hero() {
 
       <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(90deg, transparent, #7C3AED, transparent)" }} />
 
-      <div className="absolute inset-0 pointer-events-none opacity-10 select-none" aria-hidden="true">
+      <div className="absolute inset-0 pointer-events-none opacity-20 select-none" aria-hidden="true">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="10%" cy="15%" r="120" fill="#7C3AED" />
-          <circle cx="90%" cy="80%" r="160" fill="#059669" />
-          <circle cx="85%" cy="10%" r="80" fill="#059669" />
-          <circle cx="5%" cy="85%" r="100" fill="#7C3AED" />
+          <line x1="0" y1="20%" x2="100%" y2="80%" stroke="#7C3AED" strokeWidth="1" />
+          <line x1="0" y1="80%" x2="100%" y2="20%" stroke="#059669" strokeWidth="1" />
+          <line x1="20%" y1="0" x2="20%" y2="100%" stroke="#7C3AED" strokeWidth="0.5" />
+          <line x1="80%" y1="0" x2="80%" y2="100%" stroke="#059669" strokeWidth="0.5" />
+          <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#7C3AED" strokeWidth="0.5" />
         </svg>
       </div>
 
