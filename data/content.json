@@ -91,7 +91,9 @@
     {
       "id": 1,
       "caption": "JBear's BDay",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777305072252-IMG_4301.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777305072252-IMG_4301.jpeg",
+      "focalX": 50,
+      "focalY": 45
     },
     {
       "id": 2,
@@ -113,22 +115,30 @@
     {
       "id": 5,
       "caption": "Med School Prom",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306609446-006A0541.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306609446-006A0541.jpeg",
+      "focalX": 49,
+      "focalY": 38
     },
     {
       "id": 6,
       "caption": "Game Night #1",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306639224-IMG_0617.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306639224-IMG_0617.jpeg",
+      "focalX": 50,
+      "focalY": 59
     },
     {
       "id": 7,
       "caption": "IMG 3781",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307978068-IMG_3781.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307978068-IMG_3781.jpeg",
+      "focalX": 52,
+      "focalY": 30
     },
     {
       "id": 8,
       "caption": "IMG 5445",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307995927-IMG_5445.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307995927-IMG_5445.jpeg",
+      "focalX": 48,
+      "focalY": 33
     },
     {
       "id": 9,
@@ -143,27 +153,37 @@
     {
       "id": 11,
       "caption": "IMG 5512",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307997833-IMG_5512.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307997833-IMG_5512.jpeg",
+      "focalX": 54,
+      "focalY": 37
     },
     {
       "id": 12,
       "caption": "IMG 5530",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308001191-IMG_5530.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308001191-IMG_5530.jpeg",
+      "focalX": 51,
+      "focalY": 37
     },
     {
       "id": 13,
       "caption": "IMG 5573",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307993676-IMG_5573.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307993676-IMG_5573.jpeg",
+      "focalX": 50,
+      "focalY": 63
     },
     {
       "id": 14,
       "caption": "IMG 4132",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307967806-IMG_4132.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307967806-IMG_4132.jpeg",
+      "focalX": 53,
+      "focalY": 35
     },
     {
       "id": 15,
       "caption": "lp image",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307956732-lp_image.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307956732-lp_image.jpeg",
+      "focalX": 53,
+      "focalY": 82
     },
     {
       "id": 16,
@@ -173,7 +193,9 @@
     {
       "id": 17,
       "caption": "IMG 6016",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308004710-IMG_6016.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308004710-IMG_6016.jpeg",
+      "focalX": 49,
+      "focalY": 71
     },
     {
       "id": 18,
@@ -198,7 +220,9 @@
     {
       "id": 22,
       "caption": "IMG 4588",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308003669-IMG_4588.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308003669-IMG_4588.jpeg",
+      "focalX": 51,
+      "focalY": 64
     },
     {
       "id": 23,
@@ -228,7 +252,9 @@
     {
       "id": 28,
       "caption": "IMG 7035",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307996314-IMG_7035.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307996314-IMG_7035.jpeg",
+      "focalX": 51,
+      "focalY": 26
     },
     {
       "id": 29,
