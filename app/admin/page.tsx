@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
-type GreatestHit  = { id: number; dish: string; emoji: string; description: string; photo?: string | null };
+type GreatestHit  = { id: number; dish: string; emoji: string; description: string; recipe: string; photos: string[]; coverPhoto: string | null };
 type GalleryItem  = { id: number; caption: string; url: string | null };
 type Message      = { author: string; message: string };
 type Content = {
@@ -273,25 +273,37 @@ export default function AdminPage() {
     } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
   }
 
-  async function handleHitPhotoUpload(index: number, file: File) {
-    const form = new FormData();
-    form.append("file", file);
-    try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      if (!res.ok) throw new Error();
-      const { url } = await res.json();
-      setContent((c) => {
-        if (!c) return c;
-        const greatestHits = [...c.greatestHits];
-        greatestHits[index] = { ...greatestHits[index], photo: url };
-        const updated = { ...c, greatestHits };
-        setTimeout(async () => {
-          const r = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: updated }) });
-          if (r.ok) setStatus({ type: "success", msg: "Photo uploaded & saved. Site rebuilding (~30s)." });
-        }, 0);
-        return updated;
-      });
-    } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
+  async function handleHitMultiPhotoUpload(dishIdx: number, files: FileList) {
+    const fileArray = Array.from(files);
+    const results = await Promise.allSettled(
+      fileArray.map(async (file) => {
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+        if (!res.ok) throw new Error();
+        const { url } = await res.json();
+        return url as string;
+      })
+    );
+    const urls = results
+      .filter((r): r is PromiseFulfilledResult<string> => r.status === "fulfilled")
+      .map((r) => r.value);
+    const failed = results.filter((r) => r.status === "rejected").length;
+    setContent((c) => {
+      if (!c) return c;
+      const greatestHits = [...c.greatestHits];
+      const hit = greatestHits[dishIdx];
+      const photos = [...(hit.photos ?? []), ...urls];
+      const coverPhoto = hit.coverPhoto ?? urls[0] ?? null;
+      greatestHits[dishIdx] = { ...hit, photos, coverPhoto };
+      const updated = { ...c, greatestHits };
+      setTimeout(async () => {
+        const r = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: updated }) });
+        if (r.ok) setStatus({ type: "success", msg: `${urls.length} photo${urls.length !== 1 ? "s" : ""} uploaded & saved.${failed ? ` ${failed} failed.` : ""} Site rebuilding (~30s).` });
+      }, 0);
+      return updated;
+    });
+    if (failed > 0) setStatus({ type: "error", msg: `${failed} upload(s) failed.` });
   }
 
   async function handleMultiPhotoUpload(files: FileList) {
@@ -352,9 +364,22 @@ export default function AdminPage() {
   });
   const addHit = () => upd((c) => {
     const maxId = c.greatestHits.reduce((m, h) => Math.max(m, h.id), 0);
-    return { ...c, greatestHits: [...c.greatestHits, { id: maxId + 1, dish: "", emoji: "🍽️", description: "", photo: null }] };
+    return { ...c, greatestHits: [...c.greatestHits, { id: maxId + 1, dish: "", emoji: "🍽️", description: "", recipe: "", photos: [], coverPhoto: null }] };
   });
   const removeHit = (i: number) => upd((c) => ({ ...c, greatestHits: c.greatestHits.filter((_, j) => j !== i) }));
+  const setHitCover = (dishIdx: number, url: string) => upd((c) => {
+    const greatestHits = [...c.greatestHits];
+    greatestHits[dishIdx] = { ...greatestHits[dishIdx], coverPhoto: url };
+    return { ...c, greatestHits };
+  });
+  const removeHitPhoto = (dishIdx: number, url: string) => upd((c) => {
+    const greatestHits = [...c.greatestHits];
+    const hit = greatestHits[dishIdx];
+    const photos = hit.photos.filter((p) => p !== url);
+    const coverPhoto = hit.coverPhoto === url ? (photos[0] ?? null) : hit.coverPhoto;
+    greatestHits[dishIdx] = { ...hit, photos, coverPhoto };
+    return { ...c, greatestHits };
+  });
 
   const updateGalleryCaption = (i: number, caption: string) => upd((c) => {
     const gallery = [...c.gallery]; gallery[i] = { ...gallery[i], caption }; return { ...c, gallery };
@@ -477,17 +502,61 @@ export default function AdminPage() {
                     <Field label="Emoji" value={hit.emoji} onChange={(v) => updateHit(i, "emoji", v)} placeholder="🍜" />
                   </div>
                   <Field label="Description" value={hit.description} onChange={(v) => updateHit(i, "description", v)} multiline placeholder="What makes this dish special…" />
-                  <PhotoUpload
-                    photo={hit.photo ?? null}
-                    onUpload={(f) => handleHitPhotoUpload(i, f)}
-                    onRemove={() => {
-                      upd((c) => {
-                        const greatestHits = [...c.greatestHits];
-                        greatestHits[i] = { ...greatestHits[i], photo: null };
-                        return { ...c, greatestHits };
-                      });
-                    }}
-                  />
+                  <Field label="Recipe" value={hit.recipe ?? ""} onChange={(v) => updateHit(i, "recipe", v)} multiline placeholder="Ingredients and steps…" />
+
+                  {/* Photos */}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>
+                        Photos {hit.photos?.length ? `(${hit.photos.length})` : ""}
+                      </label>
+                      {hit.photos?.length ? (
+                        <p className="text-xs" style={{ color: "#9CA3AF", fontFamily: "var(--font-inter)" }}>
+                          Click a photo to set as cover
+                        </p>
+                      ) : null}
+                    </div>
+
+                    {/* Photo thumbnails */}
+                    {hit.photos?.length ? (
+                      <div className="grid grid-cols-3 gap-2">
+                        {hit.photos.map((url) => {
+                          const isCover = hit.coverPhoto === url;
+                          return (
+                            <div key={url} className="relative rounded-xl overflow-hidden cursor-pointer"
+                              style={{ aspectRatio: "1", border: isCover ? `2px solid ${P}` : "2px solid transparent" }}
+                              onClick={() => setHitCover(i, url)}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={url} alt="" className="w-full h-full object-cover" />
+                              {isCover && (
+                                <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-xs font-medium"
+                                  style={{ background: P, color: "#fff", fontFamily: "var(--font-inter)" }}>
+                                  Cover
+                                </div>
+                              )}
+                              <button
+                                onClick={(e) => { e.stopPropagation(); removeHitPhoto(i, url); }}
+                                className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full flex items-center justify-center text-xs transition-opacity hover:opacity-80"
+                                style={{ background: "rgba(0,0,0,0.6)", color: "#fff" }}>
+                                ✕
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+
+                    {/* Add photos */}
+                    <label className="flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-dashed text-sm transition-opacity hover:opacity-70 cursor-pointer"
+                      style={{ borderColor: G, color: G, fontFamily: "var(--font-inter)" }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+                      </svg>
+                      Add Photos
+                      <input type="file" accept="image/*" multiple className="hidden"
+                        onChange={(e) => { if (e.target.files?.length) handleHitMultiPhotoUpload(i, e.target.files); e.target.value = ""; }} />
+                    </label>
+                  </div>
                 </Card>
               ))}
               <AddButton onClick={addHit} label="Add Dish" color={G} />
