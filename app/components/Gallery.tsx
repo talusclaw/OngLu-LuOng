@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import content from "@/data/content.json";
 
-type GalleryItem = { id: number; caption: string; url?: string | null };
+type GalleryItem = { id: number; caption: string; url?: string | null; focalX?: number; focalY?: number };
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -53,28 +53,42 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* Preview: 3×2 uniform square grid */}
-        <div className="grid grid-cols-3 gap-3">
-          {preview.map((item) => (
-            <div key={item.id}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer"
-              style={{ aspectRatio: "1 / 1", border: "1px solid rgba(255,255,255,0.06)" }}
-              onClick={() => setOpen(true)}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.url || `https://picsum.photos/seed/${item.id * 10}/600/600`}
-                alt={item.caption}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              {/* Hover overlay */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
-                style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
-                <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.92)" }}>
-                  {item.caption}
-                </p>
+        {/* Preview: bento grid — 1 large (top-left 2×2) + 5 equal small tiles */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateRows: "repeat(3, 200px)",
+          gap: "12px",
+        }}>
+          {preview.map((item, i) => {
+            const placement: React.CSSProperties =
+              i === 0 ? { gridColumn: "1 / 3", gridRow: "1 / 3" } :  // large top-left (2×2)
+              i === 1 ? { gridColumn: 3, gridRow: 1 } :               // small top-right
+              i === 2 ? { gridColumn: 3, gridRow: 2 } :               // small mid-right
+              i === 3 ? { gridColumn: 1, gridRow: 3 } :               // small bottom-left
+              i === 4 ? { gridColumn: 2, gridRow: 3 } :               // small bottom-mid
+                        { gridColumn: 3, gridRow: 3 };                 // small bottom-right
+            return (
+              <div key={item.id}
+                className="group relative overflow-hidden rounded-2xl cursor-pointer"
+                style={{ ...placement, border: "1px solid rgba(255,255,255,0.06)" }}
+                onClick={() => setOpen(true)}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.url || `https://picsum.photos/seed/${item.id * 10}/600/600`}
+                  alt={item.caption}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
+                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
+                  style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
+                  <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.92)" }}>
+                    {item.caption}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Footer row: count + view all */}
@@ -146,6 +160,7 @@ export default function Gallery() {
                     src={item.url || `https://picsum.photos/seed/${item.id * 10}/400/400`}
                     alt={item.caption}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
                   />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
                     style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>

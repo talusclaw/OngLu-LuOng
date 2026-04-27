@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
 type GreatestHit  = { id: number; dish: string; emoji: string; description: string; recipe: string; photos: string[]; coverPhoto: string | null };
-type GalleryItem  = { id: number; caption: string; url: string | null };
+type GalleryItem  = { id: number; caption: string; url: string | null; focalX?: number; focalY?: number };
 type Message      = { author: string; message: string };
 type Content = {
   family:       { name: string; tagline: string; anniversary: string; story: string };
@@ -84,9 +84,10 @@ function AddButton({ onClick, label, color = P }: { onClick: () => void; label: 
   );
 }
 
-function PhotoCard({ item, index, onCaptionChange, onUpload, onDelete }: {
+function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDelete }: {
   item: GalleryItem; index: number;
   onCaptionChange: (v: string) => void;
+  onFocalChange: (x: number, y: number) => void;
   onUpload: (f: File) => Promise<void>;
   onDelete: () => void;
 }) {
@@ -101,35 +102,71 @@ function PhotoCard({ item, index, onCaptionChange, onUpload, onDelete }: {
     setUploading(false);
   }
 
+  function handleFocalClick(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
+    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+    onFocalChange(x, y);
+  }
+
+  const focalX = item.focalX ?? 50;
+  const focalY = item.focalY ?? 50;
+
   return (
     <div className="rounded-2xl border overflow-hidden" style={{ background: BG, borderColor: B }}>
-      <div className="relative w-full h-44 cursor-pointer group" style={{ background: "#EDE9FE" }}
-        onClick={() => inputRef.current?.click()}>
-        {item.url
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={item.url} alt={item.caption} className="w-full h-full object-cover" />
-          : <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={P} strokeWidth="1.5">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="text-sm" style={{ color: P, fontFamily: "var(--font-inter)" }}>
-                {uploading ? "Uploading…" : "Click to upload"}
-              </p>
+      {/* Image area: click to set focal point */}
+      <div className="relative w-full h-44 cursor-crosshair" style={{ background: "#EDE9FE" }}
+        onClick={item.url ? handleFocalClick : () => inputRef.current?.click()}>
+        {item.url ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={item.url} alt={item.caption} className="w-full h-full object-cover"
+              style={{ objectPosition: `${focalX}% ${focalY}%` }} />
+            {/* Focal point crosshair */}
+            <div style={{
+              position: "absolute",
+              left: `${focalX}%`, top: `${focalY}%`,
+              transform: "translate(-50%, -50%)",
+              width: 22, height: 22,
+              borderRadius: "50%",
+              border: "2.5px solid #fff",
+              boxShadow: "0 0 0 1.5px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(0,0,0,0.2)",
+              pointerEvents: "none",
+            }} />
+            <div className="absolute bottom-1.5 inset-x-0 flex justify-center pointer-events-none">
+              <span style={{ background: "rgba(0,0,0,0.5)", color: "#fff", fontSize: "0.65rem",
+                padding: "2px 7px", borderRadius: 4, fontFamily: "var(--font-inter)", letterSpacing: "0.03em" }}>
+                Click to move focus point
+              </span>
             </div>
-        }
-        {item.url && (
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <p className="text-white text-sm">{uploading ? "Uploading…" : "Click to replace"}</p>
+          </>
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={P} strokeWidth="1.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-sm" style={{ color: P, fontFamily: "var(--font-inter)" }}>
+              {uploading ? "Uploading…" : "Click to upload"}
+            </p>
           </div>
         )}
         <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
       </div>
       <div className="p-4 flex flex-col gap-3">
         <Field label={`Photo ${index + 1} Caption`} value={item.caption} onChange={onCaptionChange} placeholder="A wonderful moment…" />
-        <button onClick={onDelete} className="text-xs px-3 py-1.5 rounded-lg self-start transition-opacity hover:opacity-70"
-          style={{ background: "#FEE2E2", color: "#991B1B", fontFamily: "var(--font-inter)" }}>
-          Remove photo
-        </button>
+        <div className="flex items-center gap-2">
+          {item.url && (
+            <button onClick={() => inputRef.current?.click()}
+              className="text-xs px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
+              style={{ background: "#EDE9FE", color: P, fontFamily: "var(--font-inter)" }}>
+              Replace photo
+            </button>
+          )}
+          <button onClick={onDelete} className="text-xs px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
+            style={{ background: "#FEE2E2", color: "#991B1B", fontFamily: "var(--font-inter)" }}>
+            Remove photo
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -384,6 +421,9 @@ export default function AdminPage() {
   const updateGalleryCaption = (i: number, caption: string) => upd((c) => {
     const gallery = [...c.gallery]; gallery[i] = { ...gallery[i], caption }; return { ...c, gallery };
   });
+  const updateGalleryFocal = (i: number, focalX: number, focalY: number) => upd((c) => {
+    const gallery = [...c.gallery]; gallery[i] = { ...gallery[i], focalX, focalY }; return { ...c, gallery };
+  });
   const addPhoto = () => upd((c) => {
     const maxId = c.gallery.reduce((m, g) => Math.max(m, g.id), 0);
     return { ...c, gallery: [...c.gallery, { id: maxId + 1, caption: "", url: null }] };
@@ -573,6 +613,7 @@ export default function AdminPage() {
                 {content.gallery.map((item, i) => (
                   <PhotoCard key={item.id} item={item} index={i}
                     onCaptionChange={(v) => updateGalleryCaption(i, v)}
+                    onFocalChange={(x, y) => updateGalleryFocal(i, x, y)}
                     onUpload={(f) => handlePhotoUpload(i, f)}
                     onDelete={() => removePhoto(i)} />
                 ))}
