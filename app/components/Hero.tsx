@@ -1,70 +1,111 @@
+"use client";
+
 import content from "@/data/content.json";
 
 export default function Hero() {
   const { family } = content;
+  const [first, second] = family.name.split("/").map((s) => s.trim());
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #F5F3FF 0%, #EDE9FE 50%, #DDD6FE 100%)" }}>
+    <section
+      className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+      style={{ background: "var(--bg-dark)" }}
+    >
+      {/* Floating orbs */}
+      <div className="hero-orb animate-float-a"
+        style={{ width: 800, height: 800, top: "-220px", left: "-160px",
+          background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 68%)" }} />
+      <div className="hero-orb animate-float-b"
+        style={{ width: 560, height: 560, bottom: "-120px", right: "-80px",
+          background: "radial-gradient(circle, rgba(16,185,129,0.11) 0%, transparent 68%)" }} />
+      <div className="hero-orb animate-float-a"
+        style={{ width: 360, height: 360, top: "38%", right: "18%", animationDelay: "-7s",
+          background: "radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 68%)" }} />
 
-      <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(90deg, transparent, #7C3AED, transparent)" }} />
+      {/* Dot grid */}
+      <div className="hero-grid" />
 
-      <div className="absolute inset-0 pointer-events-none opacity-20 select-none" aria-hidden="true">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <line x1="0" y1="20%" x2="100%" y2="80%" stroke="#7C3AED" strokeWidth="1" />
-          <line x1="0" y1="80%" x2="100%" y2="20%" stroke="#059669" strokeWidth="1" />
-          <line x1="20%" y1="0" x2="20%" y2="100%" stroke="#7C3AED" strokeWidth="0.5" />
-          <line x1="80%" y1="0" x2="80%" y2="100%" stroke="#059669" strokeWidth="0.5" />
-          <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#7C3AED" strokeWidth="0.5" />
-        </svg>
-      </div>
+      {/* Top glow border */}
+      <div className="absolute top-0 left-0 right-0 glow-line" style={{ height: 1 }} />
 
-      <div className="relative z-10 max-w-3xl mx-auto">
-        <p className="animate-fade-in-up text-base uppercase tracking-[0.3em] mb-6"
-          style={{ color: "#059669", fontFamily: "var(--font-inter)" }}>
-          {family.anniversary}
-        </p>
+      {/* Content */}
+      <div className="relative z-10 max-w-4xl mx-auto w-full">
 
-        <h1 className="animate-fade-in-up animate-delay-200 font-display text-6xl md:text-8xl lg:text-9xl font-light leading-tight"
-          style={{ color: "#1E1B4B" }}>
-          {family.name.split("/").map((part, i) => (
-            <span key={i}>
-              {i > 0 && (
-                <span className="block text-4xl md:text-5xl font-light my-1" style={{ color: "#7C3AED" }}>&</span>
-              )}
-              {part.trim()}
-            </span>
-          ))}
-        </h1>
-
-        <div className="animate-fade-in-up animate-delay-400 my-8 flex items-center justify-center gap-3">
-          <div className="h-px w-16" style={{ background: "#7C3AED" }} />
-          <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#059669" }} />
-          <div className="h-px w-16" style={{ background: "#7C3AED" }} />
+        {/* Year badge */}
+        <div className="animate-fade-up d-0 inline-flex items-center gap-2.5 px-5 py-2 rounded-full mb-10"
+          style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.28)" }}>
+          <span className="w-1.5 h-1.5 rounded-full animate-glow" style={{ background: "#10B981", flexShrink: 0 }} />
+          <span className="section-label" style={{ color: "#A78BFA" }}>{family.anniversary}</span>
         </div>
 
-        <p className="animate-fade-in-up animate-delay-400 font-display text-2xl md:text-3xl font-light italic"
-          style={{ color: "#6D28D9" }}>
+        {/* Title */}
+        <h1 className="animate-fade-up d-2 font-display font-light leading-[0.9] tracking-tight"
+          style={{ fontSize: "clamp(3.5rem, 11vw, 8.5rem)" }}>
+          <span className="shimmer-text">{first}</span>
+          <span className="block font-display font-light" style={{
+            fontSize: "clamp(1.5rem, 4vw, 3.5rem)",
+            color: "var(--green)",
+            letterSpacing: "0.25em",
+            margin: "0.3em 0",
+          }}>
+            &amp;
+          </span>
+          <span className="shimmer-text" style={{ animationDelay: "-3.5s" }}>{second}</span>
+        </h1>
+
+        {/* Glow divider */}
+        <div className="animate-fade-up d-3 glow-line mx-auto my-10" style={{ height: 1, width: 160 }} />
+
+        {/* Tagline */}
+        <p className="animate-fade-up d-4 font-display font-light italic"
+          style={{ fontSize: "clamp(1.2rem, 2.8vw, 1.9rem)", color: "var(--t-d-1)", letterSpacing: "0.02em" }}>
           {family.tagline}
         </p>
 
-        <p className="animate-fade-in-up animate-delay-600 mt-8 text-lg md:text-xl leading-relaxed max-w-xl mx-auto"
-          style={{ color: "#3B1A6B", fontFamily: "var(--font-inter)", fontWeight: 300 }}>
+        {/* Story */}
+        <p className="animate-fade-up d-5 mt-7 mx-auto leading-[1.85]"
+          style={{
+            maxWidth: 600,
+            fontSize: "clamp(1rem, 1.5vw, 1.1rem)",
+            color: "var(--t-d-2)",
+            fontWeight: 300,
+          }}>
           {family.story}
         </p>
 
-        <div className="animate-fade-in-up animate-delay-600 mt-14 flex flex-col items-center gap-2">
-          <a href="#timeline" className="text-sm uppercase tracking-widest transition-opacity hover:opacity-60"
-            style={{ color: "#059669", fontFamily: "var(--font-inter)" }}>
-            Explore Our Year
+        {/* Scroll CTA */}
+        <div className="animate-fade-up d-6 mt-16 flex flex-col items-center gap-3">
+          <a href="#timeline" className="relative w-12 h-12 rounded-full flex items-center justify-center"
+            style={{
+              background: "rgba(124,58,237,0.12)",
+              border: "1px solid rgba(124,58,237,0.38)",
+              transition: "transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.transform = "scale(1.12)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(124,58,237,0.5)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+              (e.currentTarget as HTMLElement).style.boxShadow = "none";
+            }}>
+            {/* Pulse rings */}
+            <span className="absolute inset-0 rounded-full animate-pulse-ring"
+              style={{ border: "1px solid rgba(124,58,237,0.45)" }} />
+            <span className="absolute inset-0 rounded-full animate-pulse-ring"
+              style={{ border: "1px solid rgba(16,185,129,0.3)", animationDelay: "1.4s" }} />
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M7.5 2v11M7.5 13L3 8.5M7.5 13L12 8.5"
+                stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
-          <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 2V22M8 22L2 16M8 22L14 16" stroke="#059669" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <span className="section-label" style={{ color: "var(--t-d-3)" }}>Explore Our Year</span>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: "linear-gradient(90deg, transparent, #059669, transparent)" }} />
+      {/* Bottom fade into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
+        style={{ background: "linear-gradient(to top, var(--bg-dark-2) 0%, transparent 100%)" }} />
     </section>
   );
 }
