@@ -7,7 +7,7 @@ export default function Timeline() {
 
   return (
     <section id="timeline" className="py-28 overflow-hidden"
-      style={{ background: "var(--bg-dark-2)" }}>
+      style={{ background: "linear-gradient(160deg, #1A1040 0%, #180F38 50%, #0F1E2A 100%)" }}>
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Header */}

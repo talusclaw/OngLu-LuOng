@@ -14,13 +14,13 @@ export default function Hero() {
       {/* Floating orbs */}
       <div className="hero-orb animate-float-a"
         style={{ width: 800, height: 800, top: "-220px", left: "-160px",
-          background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 68%)" }} />
+          background: "radial-gradient(circle, rgba(124,58,237,0.28) 0%, transparent 68%)" }} />
       <div className="hero-orb animate-float-b"
         style={{ width: 560, height: 560, bottom: "-120px", right: "-80px",
-          background: "radial-gradient(circle, rgba(16,185,129,0.11) 0%, transparent 68%)" }} />
+          background: "radial-gradient(circle, rgba(16,185,129,0.20) 0%, transparent 68%)" }} />
       <div className="hero-orb animate-float-a"
         style={{ width: 360, height: 360, top: "38%", right: "18%", animationDelay: "-7s",
-          background: "radial-gradient(circle, rgba(167,139,250,0.09) 0%, transparent 68%)" }} />
+          background: "radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 68%)" }} />
 
       {/* Dot grid */}
       <div className="hero-grid" />
@@ -105,7 +105,7 @@ export default function Hero() {
 
       {/* Bottom fade into next section */}
       <div className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
-        style={{ background: "linear-gradient(to top, var(--bg-dark-2) 0%, transparent 100%)" }} />
+        style={{ background: "linear-gradient(to top, #1A1040 0%, transparent 100%)" }} />
     </section>
   );
 }

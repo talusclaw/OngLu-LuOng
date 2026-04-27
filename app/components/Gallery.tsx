@@ -9,7 +9,7 @@ export default function Gallery() {
 
   return (
     <section id="gallery" className="py-28 px-6"
-      style={{ background: "var(--bg-dark)" }}>
+      style={{ background: "linear-gradient(160deg, #150F30 0%, #0F1A2E 100%)" }}>
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}

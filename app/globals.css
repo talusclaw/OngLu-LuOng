@@ -15,22 +15,22 @@
   --green-glow:   rgba(16, 185, 129, 0.3);
 
   /* Surfaces */
-  --bg-dark:      #07050F;
-  --bg-dark-2:    #0D0A1F;
-  --bg-light:     #FAFAFE;
+  --bg-dark:      #100C24;
+  --bg-dark-2:    #180F38;
+  --bg-light:     #F5F3FF;
 
   /* Cards */
-  --card-dark:    rgba(255, 255, 255, 0.045);
-  --card-light:   rgba(255, 255, 255, 0.72);
+  --card-dark:    rgba(255, 255, 255, 0.07);
+  --card-light:   rgba(255, 255, 255, 0.78);
 
   /* Borders */
-  --border-dark:  rgba(255, 255, 255, 0.09);
-  --border-light: rgba(124, 58, 237, 0.14);
+  --border-dark:  rgba(255, 255, 255, 0.12);
+  --border-light: rgba(124, 58, 237, 0.18);
 
   /* Text dark */
-  --t-d-1: rgba(255, 255, 255, 0.94);
-  --t-d-2: rgba(255, 255, 255, 0.58);
-  --t-d-3: rgba(255, 255, 255, 0.3);
+  --t-d-1: rgba(255, 255, 255, 0.96);
+  --t-d-2: rgba(255, 255, 255, 0.72);
+  --t-d-3: rgba(255, 255, 255, 0.44);
 
   /* Text light */
   --t-l-1: #0F0A1E;
