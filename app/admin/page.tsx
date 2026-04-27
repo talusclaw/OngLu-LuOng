@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string };
+type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
 type GreatestHit  = { id: number; dish: string; emoji: string; description: string };
 type GalleryItem  = { id: number; caption: string; url: string | null };
 type Message      = { author: string; message: string };
@@ -135,6 +135,61 @@ function PhotoCard({ item, index, onCaptionChange, onUpload, onDelete }: {
   );
 }
 
+function TimelinePhotoUpload({ photo, onUpload, onRemove }: {
+  photo: string | null;
+  onUpload: (f: File) => Promise<void>;
+  onRemove: () => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    await onUpload(file);
+    setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>
+        Event Photo (optional)
+      </label>
+      <div
+        className="relative w-full rounded-xl overflow-hidden cursor-pointer group"
+        style={{ height: 140, background: "#EDE9FE", border: `1.5px dashed ${B}` }}
+        onClick={() => inputRef.current?.click()}>
+        {photo
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img src={photo} alt="Event photo" className="w-full h-full object-cover" />
+          : <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={P} strokeWidth="1.5">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-sm" style={{ color: P, fontFamily: "var(--font-inter)" }}>
+                {uploading ? "Uploading…" : "Click to add photo"}
+              </p>
+            </div>
+        }
+        {photo && (
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <p className="text-white text-sm">{uploading ? "Uploading…" : "Click to replace"}</p>
+          </div>
+        )}
+        <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      </div>
+      {photo && (
+        <button onClick={onRemove} className="text-xs px-3 py-1 rounded-lg self-start transition-opacity hover:opacity-70"
+          style={{ background: "#FEE2E2", color: "#991B1B", fontFamily: "var(--font-inter)" }}>
+          Remove photo
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function AdminPage() {
   const router = useRouter();
   const [content, setContent] = useState<Content | null>(null);
@@ -197,6 +252,27 @@ export default function AdminPage() {
     } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
   }
 
+  async function handleTimelinePhotoUpload(index: number, file: File) {
+    const form = new FormData();
+    form.append("file", file);
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      if (!res.ok) throw new Error();
+      const { url } = await res.json();
+      setContent((c) => {
+        if (!c) return c;
+        const timeline = [...c.timeline];
+        timeline[index] = { ...timeline[index], photo: url };
+        const updated = { ...c, timeline };
+        setTimeout(async () => {
+          const r = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: updated }) });
+          if (r.ok) setStatus({ type: "success", msg: "Photo uploaded & saved. Site rebuilding (~30s)." });
+        }, 0);
+        return updated;
+      });
+    } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
+  }
+
   /* ── Updaters ── */
   const upd = (fn: (c: Content) => Content) => setContent((c) => c ? fn(c) : c);
 
@@ -207,7 +283,7 @@ export default function AdminPage() {
   });
   const addTimeline = () => upd((c) => {
     const maxId = c.timeline.reduce((m, t) => Math.max(m, t.id), 0);
-    return { ...c, timeline: [...c.timeline, { id: maxId + 1, date: "", emoji: "✨", title: "", description: "" }] };
+    return { ...c, timeline: [...c.timeline, { id: maxId + 1, date: "", emoji: "✨", title: "", description: "", photo: null }] };
   });
   const removeTimeline = (i: number) => upd((c) => ({ ...c, timeline: c.timeline.filter((_, j) => j !== i) }));
 
@@ -314,6 +390,17 @@ export default function AdminPage() {
                   </div>
                   <Field label="Title" value={item.title} onChange={(v) => updateTimeline(i, "title", v)} placeholder="A special moment…" />
                   <Field label="Description" value={item.description} onChange={(v) => updateTimeline(i, "description", v)} multiline placeholder="What made this moment special…" />
+                  <TimelinePhotoUpload
+                    photo={item.photo ?? null}
+                    onUpload={(f) => handleTimelinePhotoUpload(i, f)}
+                    onRemove={() => {
+                      upd((c) => {
+                        const timeline = [...c.timeline];
+                        timeline[i] = { ...timeline[i], photo: null };
+                        return { ...c, timeline };
+                      });
+                    }}
+                  />
                 </Card>
               ))}
               <AddButton onClick={addTimeline} label="Add Event" color={P} />

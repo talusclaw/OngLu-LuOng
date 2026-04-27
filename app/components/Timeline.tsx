@@ -1,6 +1,6 @@
 import content from "@/data/content.json";
 
-type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string };
+type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
 
 export default function Timeline() {
   const timeline = content.timeline as TimelineItem[];
@@ -80,15 +80,23 @@ export default function Timeline() {
                   </div>
 
                   {/* Card */}
-                  <div className="glass-dark rounded-2xl p-6 mt-6 mx-4 w-64">
-                    <p className="text-4xl mb-4">{item.emoji}</p>
-                    <h3 className="font-display font-light mb-3"
-                      style={{ fontSize: "1.4rem", color: "var(--t-d-1)" }}>
-                      {item.title}
-                    </h3>
-                    <p className="leading-relaxed" style={{ fontSize: "0.9rem", color: "var(--t-d-2)", fontWeight: 300 }}>
-                      {item.description}
-                    </p>
+                  <div className="glass-dark rounded-2xl mt-6 mx-4 w-64 overflow-hidden">
+                    {item.photo && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={item.photo} alt={item.title}
+                        className="w-full object-cover"
+                        style={{ height: 140 }} />
+                    )}
+                    <div className="p-6">
+                      <p className="text-4xl mb-4">{item.emoji}</p>
+                      <h3 className="font-display font-light mb-3"
+                        style={{ fontSize: "1.4rem", color: "var(--t-d-1)" }}>
+                        {item.title}
+                      </h3>
+                      <p className="leading-relaxed" style={{ fontSize: "0.9rem", color: "var(--t-d-2)", fontWeight: 300 }}>
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
 
                 </div>

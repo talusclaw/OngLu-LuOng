@@ -11,35 +11,40 @@
       "date": "April 2025",
       "emoji": "🍜",
       "title": "Where It All Began",
-      "description": "Our first date!! Pink open shoulder sweater, low rise jeans + blue jeans, grey sweater, peat coat "
+      "description": "Our first date!! Pink open shoulder sweater, low rise jeans + blue jeans, grey sweater, peat coat ",
+      "photo": null
     },
     {
       "id": 2,
       "date": "July 2025",
       "emoji": "☀️",
       "title": "Celebrations & Gatherings",
-      "description": "Long afternoons, outdoor dinners, and the kind of laughter that carries into the evening. Summer brought the family closer, one gathering at a time."
+      "description": "Long afternoons, outdoor dinners, and the kind of laughter that carries into the evening. Summer brought the family closer, one gathering at a time.",
+      "photo": null
     },
     {
       "id": 3,
       "date": "October 2025",
       "emoji": "🍂",
       "title": "Roots Growing Deeper",
-      "description": "As the leaves changed, so did we — learning each other's rhythms, traditions, and stories. The family tree grew stronger with every shared moment."
+      "description": "As the leaves changed, so did we — learning each other's rhythms, traditions, and stories. The family tree grew stronger with every shared moment.",
+      "photo": null
     },
     {
       "id": 4,
       "date": "January 2026",
       "emoji": "❄️",
       "title": "Warmth Through the Cold",
-      "description": "Holidays, warmth, and the quiet joy of belonging. Winter reminded us that no matter the season, family is always the warmest place to be."
+      "description": "Holidays, warmth, and the quiet joy of belonging. Winter reminded us that no matter the season, family is always the warmest place to be.",
+      "photo": null
     },
     {
       "id": 5,
       "date": "April 2026",
       "emoji": "✨",
       "title": "White Plains ",
-      "description": "Game night "
+      "description": "Game night ",
+      "photo": null
     }
   ],
   "greatestHits": [
