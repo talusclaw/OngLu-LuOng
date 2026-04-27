@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
-type GreatestHit  = { id: number; dish: string; emoji: string; description: string };
+type GreatestHit  = { id: number; dish: string; emoji: string; description: string; photo?: string | null };
 type GalleryItem  = { id: number; caption: string; url: string | null };
 type Message      = { author: string; message: string };
 type Content = {
@@ -135,7 +135,7 @@ function PhotoCard({ item, index, onCaptionChange, onUpload, onDelete }: {
   );
 }
 
-function TimelinePhotoUpload({ photo, onUpload, onRemove }: {
+function PhotoUpload({ photo, onUpload, onRemove }: {
   photo: string | null;
   onUpload: (f: File) => Promise<void>;
   onRemove: () => void;
@@ -155,7 +155,7 @@ function TimelinePhotoUpload({ photo, onUpload, onRemove }: {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>
-        Event Photo (optional)
+        Photo (optional)
       </label>
       <div
         className="relative w-full rounded-xl overflow-hidden cursor-pointer group"
@@ -273,6 +273,66 @@ export default function AdminPage() {
     } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
   }
 
+  async function handleHitPhotoUpload(index: number, file: File) {
+    const form = new FormData();
+    form.append("file", file);
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+      if (!res.ok) throw new Error();
+      const { url } = await res.json();
+      setContent((c) => {
+        if (!c) return c;
+        const greatestHits = [...c.greatestHits];
+        greatestHits[index] = { ...greatestHits[index], photo: url };
+        const updated = { ...c, greatestHits };
+        setTimeout(async () => {
+          const r = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: updated }) });
+          if (r.ok) setStatus({ type: "success", msg: "Photo uploaded & saved. Site rebuilding (~30s)." });
+        }, 0);
+        return updated;
+      });
+    } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
+  }
+
+  async function handleMultiPhotoUpload(files: FileList) {
+    if (!content) return;
+    const fileArray = Array.from(files);
+    const maxId = content.gallery.reduce((m, g) => Math.max(m, g.id), 0);
+    const newItems = fileArray.map((f, i) => ({
+      id: maxId + 1 + i,
+      caption: f.name.replace(/\.[^.]+$/, "").replace(/[_\-]/g, " "),
+      url: null as string | null,
+    }));
+    setContent((c) => c ? { ...c, gallery: [...c.gallery, ...newItems] } : c);
+    const results = await Promise.allSettled(
+      fileArray.map(async (file, i) => {
+        const form = new FormData();
+        form.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+        if (!res.ok) throw new Error();
+        const { url } = await res.json();
+        return { id: newItems[i].id, url: url as string };
+      })
+    );
+    const urlMap = new Map(
+      results
+        .filter((r): r is PromiseFulfilledResult<{ id: number; url: string }> => r.status === "fulfilled")
+        .map((r) => [r.value.id, r.value.url])
+    );
+    const failed = results.filter((r) => r.status === "rejected").length;
+    setContent((c) => {
+      if (!c) return c;
+      const gallery = c.gallery.map((g) => urlMap.has(g.id) ? { ...g, url: urlMap.get(g.id)! } : g);
+      const updated = { ...c, gallery };
+      setTimeout(async () => {
+        const r = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ content: updated }) });
+        if (r.ok) setStatus({ type: "success", msg: `${urlMap.size} photo${urlMap.size !== 1 ? "s" : ""} uploaded & saved.${failed ? ` ${failed} failed.` : ""} Site rebuilding (~30s).` });
+      }, 0);
+      return updated;
+    });
+    if (failed > 0) setStatus({ type: "error", msg: `${failed} upload(s) failed.` });
+  }
+
   /* ── Updaters ── */
   const upd = (fn: (c: Content) => Content) => setContent((c) => c ? fn(c) : c);
 
@@ -292,7 +352,7 @@ export default function AdminPage() {
   });
   const addHit = () => upd((c) => {
     const maxId = c.greatestHits.reduce((m, h) => Math.max(m, h.id), 0);
-    return { ...c, greatestHits: [...c.greatestHits, { id: maxId + 1, dish: "", emoji: "🍽️", description: "" }] };
+    return { ...c, greatestHits: [...c.greatestHits, { id: maxId + 1, dish: "", emoji: "🍽️", description: "", photo: null }] };
   });
   const removeHit = (i: number) => upd((c) => ({ ...c, greatestHits: c.greatestHits.filter((_, j) => j !== i) }));
 
@@ -390,7 +450,7 @@ export default function AdminPage() {
                   </div>
                   <Field label="Title" value={item.title} onChange={(v) => updateTimeline(i, "title", v)} placeholder="A special moment…" />
                   <Field label="Description" value={item.description} onChange={(v) => updateTimeline(i, "description", v)} multiline placeholder="What made this moment special…" />
-                  <TimelinePhotoUpload
+                  <PhotoUpload
                     photo={item.photo ?? null}
                     onUpload={(f) => handleTimelinePhotoUpload(i, f)}
                     onRemove={() => {
@@ -417,6 +477,17 @@ export default function AdminPage() {
                     <Field label="Emoji" value={hit.emoji} onChange={(v) => updateHit(i, "emoji", v)} placeholder="🍜" />
                   </div>
                   <Field label="Description" value={hit.description} onChange={(v) => updateHit(i, "description", v)} multiline placeholder="What makes this dish special…" />
+                  <PhotoUpload
+                    photo={hit.photo ?? null}
+                    onUpload={(f) => handleHitPhotoUpload(i, f)}
+                    onRemove={() => {
+                      upd((c) => {
+                        const greatestHits = [...c.greatestHits];
+                        greatestHits[i] = { ...greatestHits[i], photo: null };
+                        return { ...c, greatestHits };
+                      });
+                    }}
+                  />
                 </Card>
               ))}
               <AddButton onClick={addHit} label="Add Dish" color={G} />
@@ -437,7 +508,15 @@ export default function AdminPage() {
                     onDelete={() => removePhoto(i)} />
                 ))}
               </div>
-              <AddButton onClick={addPhoto} label="Add Photo" color={P} />
+              <label className="flex items-center justify-center gap-2 py-4 rounded-2xl border-2 border-dashed text-base transition-opacity hover:opacity-70 w-full cursor-pointer"
+                style={{ borderColor: P, color: P, fontFamily: "var(--font-inter)" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+                </svg>
+                Add Photos
+                <input type="file" accept="image/*" multiple className="hidden"
+                  onChange={(e) => { if (e.target.files?.length) handleMultiPhotoUpload(e.target.files); e.target.value = ""; }} />
+              </label>
             </div>
           )}
 

@@ -52,25 +52,29 @@
       "id": 1,
       "dish": "Phở",
       "emoji": "🍜",
-      "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all."
+      "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all.",
+      "photo": null
     },
     {
       "id": 2,
       "dish": "Bánh Cuốn",
       "emoji": "🫔",
-      "description": "Delicate steamed rice rolls filled with seasoned pork and wood ear mushrooms — a weekend morning tradition."
+      "description": "Delicate steamed rice rolls filled with seasoned pork and wood ear mushrooms — a weekend morning tradition.",
+      "photo": null
     },
     {
       "id": 3,
       "dish": "Bò Lúc Lắc",
       "emoji": "🥩",
-      "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools."
+      "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools.",
+      "photo": null
     },
     {
       "id": 4,
       "dish": "Chè Ba Màu",
       "emoji": "🧁",
-      "description": "Three-color dessert layered with mung beans, red beans, and pandan jelly — sweet endings after every gathering."
+      "description": "Three-color dessert layered with mung beans, red beans, and pandan jelly — sweet endings after every gathering.",
+      "photo": null
     }
   ],
   "gallery": [
