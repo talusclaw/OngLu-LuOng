@@ -54,7 +54,9 @@
       "emoji": "🍜",
       "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all.",
       "recipe": "",
-      "photos": ["https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308059860-IMG_6845.jpeg"],
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308059860-IMG_6845.jpeg"
+      ],
       "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308059860-IMG_6845.jpeg"
     },
     {
@@ -94,7 +96,9 @@
     {
       "id": 2,
       "caption": "NIGHT OUT ",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306544378-DSCN2841.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306544378-DSCN2841.jpeg",
+      "focalX": 45,
+      "focalY": 35
     },
     {
       "id": 3,
