@@ -1,60 +1,95 @@
 import content from "@/data/content.json";
 
+type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string };
+
 export default function Timeline() {
-  const { timeline } = content;
+  const timeline = content.timeline as TimelineItem[];
 
   return (
-    <section id="timeline" className="py-24 px-6" style={{ background: "#F5F3FF" }}>
-      <div className="max-w-4xl mx-auto">
+    <section id="timeline" className="py-24 overflow-hidden"
+      style={{ background: "linear-gradient(135deg, #1E1B4B 0%, #2E1065 50%, #064E3B 100%)" }}>
+      <div className="max-w-6xl mx-auto px-6">
+
+        {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-sm uppercase tracking-[0.3em] mb-3" style={{ color: "#059669", fontFamily: "var(--font-inter)" }}>
+          <p className="text-sm uppercase tracking-[0.3em] mb-3" style={{ color: "#10B981", fontFamily: "var(--font-inter)" }}>
             A Year in Review
           </p>
-          <h2 className="font-display text-5xl md:text-6xl font-light" style={{ color: "#1E1B4B" }}>
+          <h2 className="font-display text-5xl md:text-6xl font-light gradient-text">
             Seasons Together
           </h2>
-          <div className="mt-4 flex items-center justify-center gap-3">
-            <div className="h-px w-12" style={{ background: "#7C3AED" }} />
-            <div className="w-2 h-2 rounded-full" style={{ background: "#059669" }} />
-            <div className="h-px w-12" style={{ background: "#7C3AED" }} />
+          <div className="mt-5 flex items-center justify-center gap-3">
+            <div className="h-px w-16" style={{ background: "linear-gradient(90deg, transparent, #7C3AED)" }} />
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#10B981" }} />
+            <div className="h-px w-16" style={{ background: "linear-gradient(90deg, #059669, transparent)" }} />
           </div>
         </div>
 
-        <div className="relative">
-          <div className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 hidden md:block"
-            style={{ background: "linear-gradient(to bottom, transparent, #7C3AED 10%, #7C3AED 90%, transparent)" }} />
+        {/* Horizontal scrolling track */}
+        <div className="relative overflow-x-auto pb-6" style={{ scrollSnapType: "x mandatory" }}>
+          <div className="flex" style={{ minWidth: "max-content", gap: 0 }}>
 
-          <div className="space-y-12 md:space-y-0">
             {timeline.map((item, i) => (
-              <div key={i} className={`relative flex flex-col md:flex-row items-center gap-8 md:gap-0 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
-                <div className={`md:w-5/12 ${i % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12 md:text-left"}`}>
-                  <div className="rounded-2xl p-6 shadow-sm border transition-shadow hover:shadow-md"
-                    style={{ background: "#FEFCFF", borderColor: "#DDD6FE" }}>
-                    <p className="font-display text-4xl mb-1">{item.emoji}</p>
-                    <p className="text-sm uppercase tracking-widest mb-2" style={{ color: "#059669", fontFamily: "var(--font-inter)" }}>
-                      {item.month}
-                    </p>
-                    <h3 className="font-display text-2xl font-medium mb-3" style={{ color: "#1E1B4B" }}>
-                      {item.title}
-                    </h3>
-                    <p className="text-base leading-relaxed" style={{ color: "#4C1D95", fontFamily: "var(--font-inter)", fontWeight: 300 }}>
-                      {item.description}
-                    </p>
-                  </div>
+              <div key={item.id}
+                className="flex flex-col items-center"
+                style={{ width: 280, scrollSnapAlign: "start", flexShrink: 0 }}>
+
+                {/* Date badge */}
+                <div className="mb-4 px-3 py-1 rounded-full text-xs uppercase tracking-widest"
+                  style={{
+                    background: "rgba(124,58,237,0.2)",
+                    border: "1px solid rgba(124,58,237,0.4)",
+                    color: "#A78BFA",
+                    fontFamily: "var(--font-inter)",
+                  }}>
+                  {item.date}
                 </div>
 
-                <div className="md:w-2/12 flex justify-center items-center z-10">
-                  <div className="w-10 h-10 rounded-full border-2 flex items-center justify-center shadow-sm"
-                    style={{ background: "#F5F3FF", borderColor: "#7C3AED" }}>
-                    <div className="w-3 h-3 rounded-full" style={{ background: "#059669" }} />
-                  </div>
+                {/* Connector line + dot */}
+                <div className="relative w-full flex items-center" style={{ height: 24 }}>
+                  {/* Left connector */}
+                  <div className="flex-1 h-px"
+                    style={{
+                      background: i === 0
+                        ? "transparent"
+                        : "linear-gradient(90deg, rgba(124,58,237,0.3), #7C3AED)",
+                    }} />
+                  {/* Dot */}
+                  <div className="w-4 h-4 rounded-full shrink-0 animate-glow z-10 relative"
+                    style={{
+                      background: "linear-gradient(135deg, #7C3AED, #059669)",
+                      boxShadow: "0 0 12px rgba(124,58,237,0.6)",
+                    }} />
+                  {/* Right connector */}
+                  <div className="flex-1 h-px"
+                    style={{
+                      background: i === timeline.length - 1
+                        ? "transparent"
+                        : "linear-gradient(90deg, #059669, rgba(5,150,105,0.3))",
+                    }} />
                 </div>
 
-                <div className="hidden md:block md:w-5/12" />
+                {/* Card */}
+                <div className="glass-card rounded-2xl p-5 mt-5 mx-3 w-56">
+                  <p className="text-4xl mb-3">{item.emoji}</p>
+                  <h3 className="font-display text-xl font-medium mb-2" style={{ color: "#1E1B4B" }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "#4C1D95", fontFamily: "var(--font-inter)", fontWeight: 300 }}>
+                    {item.description}
+                  </p>
+                </div>
               </div>
             ))}
+
           </div>
         </div>
+
+        {/* Scroll hint */}
+        <p className="text-center mt-4 text-xs uppercase tracking-widest"
+          style={{ color: "rgba(167,139,250,0.5)", fontFamily: "var(--font-inter)" }}>
+          scroll to explore →
+        </p>
       </div>
     </section>
   );

@@ -1,67 +1,73 @@
 {
   "family": {
     "name": "OngLu / LuOng",
-    "tagline": "One Year of Love, Joy, and Wonder ",
+    "tagline": "One Year of Love, Joy, and Wonder",
     "anniversary": "2025 – 2026",
     "story": "What a year it has been. From our first 5 hours Raku ramen date to our most recent game night, every laugh, every meal, and every memory has been a cherished moment. My hope is that this website will be able to depict our story so far... and continually update and grow with our adventures to come. "
   },
   "timeline": [
     {
-      "month": "Spring",
+      "id": 1,
+      "date": "April 2025",
       "emoji": "🌸",
       "title": "Where It All Began",
       "description": "The OngLu and Luong families came together for the first time, laying the foundation for something that would grow beyond what any of us imagined."
     },
     {
-      "month": "Summer",
+      "id": 2,
+      "date": "July 2025",
       "emoji": "☀️",
       "title": "Celebrations & Gatherings",
       "description": "Long afternoons, outdoor dinners, and the kind of laughter that carries into the evening. Summer brought the family closer, one gathering at a time."
     },
     {
-      "month": "Autumn",
+      "id": 3,
+      "date": "October 2025",
       "emoji": "🍂",
       "title": "Roots Growing Deeper",
       "description": "As the leaves changed, so did we — learning each other's rhythms, traditions, and stories. The family tree grew stronger with every shared moment."
     },
     {
-      "month": "Winter",
+      "id": 4,
+      "date": "January 2026",
       "emoji": "❄️",
       "title": "Warmth Through the Cold",
       "description": "Holidays, warmth, and the quiet joy of belonging. Winter reminded us that no matter the season, family is always the warmest place to be."
     }
   ],
-  "gallery": [
+  "greatestHits": [
     {
       "id": 1,
-      "caption": "Jason's Bday!",
-      "url": null
+      "dish": "Phở Bò",
+      "emoji": "🍜",
+      "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all."
     },
     {
       "id": 2,
-      "caption": "Summer Celebration",
-      "url": null
+      "dish": "Bánh Cuốn",
+      "emoji": "🫔",
+      "description": "Delicate steamed rice rolls filled with seasoned pork and wood ear mushrooms — a weekend morning tradition."
     },
     {
       "id": 3,
-      "caption": "Family Dinner",
-      "url": null
+      "dish": "Bò Lúc Lắc",
+      "emoji": "🥩",
+      "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools."
     },
     {
       "id": 4,
-      "caption": "Autumn Walk",
-      "url": null
-    },
-    {
-      "id": 5,
-      "caption": "Winter Holidays",
-      "url": null
-    },
-    {
-      "id": 6,
-      "caption": "Together",
-      "url": null
+      "dish": "Chè Ba Màu",
+      "emoji": "🧁",
+      "description": "Three-color dessert layered with mung beans, red beans, and pandan jelly — sweet endings after every gathering."
     }
+  ],
+  "gallery": [
+    { "id": 1, "caption": "Spring Gathering", "url": null },
+    { "id": 2, "caption": "Summer Celebration", "url": null },
+    { "id": 3, "caption": "Family Dinner", "url": null },
+    { "id": 4, "caption": "Autumn Walk", "url": null },
+    { "id": 5, "caption": "Winter Holidays", "url": null },
+    { "id": 6, "caption": "Together", "url": null }
   ],
   "messages": [
     {
