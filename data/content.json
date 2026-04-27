@@ -8,8 +8,8 @@
   "timeline": [
     {
       "id": 1,
-      "date": "April 2025",
-      "emoji": "🌸",
+      "date": "April 04, 2025",
+      "emoji": "Ramen ",
       "title": "Where It All Began",
       "description": "The OngLu and Luong families came together for the first time, laying the foundation for something that would grow beyond what any of us imagined."
     },
@@ -62,12 +62,36 @@
     }
   ],
   "gallery": [
-    { "id": 1, "caption": "Spring Gathering", "url": null },
-    { "id": 2, "caption": "Summer Celebration", "url": null },
-    { "id": 3, "caption": "Family Dinner", "url": null },
-    { "id": 4, "caption": "Autumn Walk", "url": null },
-    { "id": 5, "caption": "Winter Holidays", "url": null },
-    { "id": 6, "caption": "Together", "url": null }
+    {
+      "id": 1,
+      "caption": "Spring Gathering",
+      "url": null
+    },
+    {
+      "id": 2,
+      "caption": "Summer Celebration",
+      "url": null
+    },
+    {
+      "id": 3,
+      "caption": "Family Dinner",
+      "url": null
+    },
+    {
+      "id": 4,
+      "caption": "Autumn Walk",
+      "url": null
+    },
+    {
+      "id": 5,
+      "caption": "Winter Holidays",
+      "url": null
+    },
+    {
+      "id": 6,
+      "caption": "Together",
+      "url": null
+    }
   ],
   "messages": [
     {
