@@ -293,8 +293,15 @@
     },
     {
       "id": 34,
-      "caption": "IMG 5457",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475972044-IMG_7249.jpeg"
+      "caption": "Pottery Date ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475972044-IMG_7249.jpeg",
+      "focalX": 53,
+      "focalY": 76
+    },
+    {
+      "id": 35,
+      "caption": "IMG 7146",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475998138-IMG_7146.jpeg"
     }
   ],
   "messages": [
