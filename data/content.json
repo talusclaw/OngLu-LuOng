@@ -53,7 +53,7 @@
       "dish": "Phở",
       "emoji": "🍜",
       "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all.",
-      "recipe": "",
+      "recipe": "Ingredients: \n\nRecipe: ",
       "photos": [
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308059860-IMG_6845.jpeg"
       ],
@@ -61,12 +61,14 @@
     },
     {
       "id": 2,
-      "dish": "Bánh Cuốn",
-      "emoji": "🫔",
+      "dish": "Birria Tacos ",
+      "emoji": "🌮",
       "description": "Delicate steamed rice rolls filled with seasoned pork and wood ear mushrooms — a weekend morning tradition.",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477027036-IMG_5028.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477027036-IMG_5028.jpeg"
     },
     {
       "id": 3,
