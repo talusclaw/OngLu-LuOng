@@ -87,8 +87,10 @@
       "emoji": "🧁",
       "description": "Three-color dessert layered with mung beans, red beans, and pandan jelly — sweet endings after every gathering.",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477104043-IMG_4875.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477104043-IMG_4875.jpeg"
     }
   ],
   "gallery": [
