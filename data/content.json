@@ -76,8 +76,10 @@
       "emoji": "🥩",
       "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools.",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477056139-IMG_6283.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477056139-IMG_6283.jpeg"
     },
     {
       "id": 4,
