@@ -1,6 +1,6 @@
 {
   "family": {
-    "name": "OngLu / LuOng",
+    "name": "OngLu / LuOng 🐉",
     "tagline": "One Year of Love, Joy, and Wonder",
     "anniversary": "2025 – 2026",
     "story": "What a year it has been. From our first 5 hours Raku ramen date to our most recent game night, every laugh, every meal, and every memory has been a cherished moment. My hope is that this website will be able to depict our story so far... and continually update and grow with our adventures to come. "
@@ -16,11 +16,11 @@
     },
     {
       "id": 2,
-      "date": "July 2025",
-      "emoji": "☀️",
-      "title": "Celebrations & Gatherings",
-      "description": "Long afternoons, outdoor dinners, and the kind of laughter that carries into the evening. Summer brought the family closer, one gathering at a time.",
-      "photo": null
+      "date": "Jason Leaves, Part 1",
+      "emoji": "🌴🍹🍉⛱️🥥",
+      "title": "Hawaii!!",
+      "description": "Where you realized I'm better than Alec!",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476696469-IMG_5369.jpeg"
     },
     {
       "id": 3,
@@ -53,7 +53,7 @@
       "dish": "Phở",
       "emoji": "🍜",
       "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all.",
-      "recipe": "",
+      "recipe": "Ingredients: \n\nRecipe: ",
       "photos": [
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308059860-IMG_6845.jpeg"
       ],
@@ -61,12 +61,14 @@
     },
     {
       "id": 2,
-      "dish": "Bánh Cuốn",
-      "emoji": "🫔",
+      "dish": "Birria Tacos ",
+      "emoji": "🌮",
       "description": "Delicate steamed rice rolls filled with seasoned pork and wood ear mushrooms — a weekend morning tradition.",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477027036-IMG_5028.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477027036-IMG_5028.jpeg"
     },
     {
       "id": 3,
@@ -74,8 +76,10 @@
       "emoji": "🥩",
       "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools.",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477056139-IMG_6283.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477056139-IMG_6283.jpeg"
     },
     {
       "id": 4,
@@ -83,8 +87,10 @@
       "emoji": "🧁",
       "description": "Three-color dessert layered with mung beans, red beans, and pandan jelly — sweet endings after every gathering.",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477104043-IMG_4875.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477104043-IMG_4875.jpeg"
     }
   ],
   "gallery": [
@@ -93,231 +99,252 @@
       "caption": "JBear's BDay",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777305072252-IMG_4301.jpeg",
       "focalX": 50,
-      "focalY": 50
+      "focalY": 45
     },
     {
       "id": 2,
       "caption": "NIGHT OUT ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306544378-DSCN2841.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 45,
+      "focalY": 35
     },
     {
       "id": 3,
       "caption": "Baby's BDay",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306567959-IMG_3613.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306567959-IMG_3613.jpeg"
     },
     {
       "id": 4,
       "caption": "Vancouver ",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306661084-IMG_7452.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306661084-IMG_7452.jpeg"
     },
     {
       "id": 5,
       "caption": "Med School Prom",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306609446-006A0541.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 49,
+      "focalY": 38
     },
     {
       "id": 6,
       "caption": "Game Night #1",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777306639224-IMG_0617.jpeg",
       "focalX": 50,
-      "focalY": 50
+      "focalY": 59
     },
     {
       "id": 7,
-      "caption": "IMG 3781",
+      "caption": "MEOW ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307978068-IMG_3781.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 52,
+      "focalY": 30
     },
     {
       "id": 8,
-      "caption": "IMG 5445",
+      "caption": "Pho Date ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307995927-IMG_5445.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 48,
+      "focalY": 33
     },
     {
       "id": 9,
-      "caption": "IMG 6849",
+      "caption": "Flushing with Friends! ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308002171-IMG_6849.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 48,
+      "focalY": 32
     },
     {
       "id": 10,
-      "caption": "IMG 5490",
-      "url": null,
-      "focalX": 50,
-      "focalY": 50
+      "caption": "CHUCK",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475485716-IMG_6351.jpeg"
     },
     {
       "id": 11,
-      "caption": "IMG 5512",
+      "caption": "LA ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307997833-IMG_5512.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 54,
+      "focalY": 37
     },
     {
       "id": 12,
-      "caption": "IMG 5530",
+      "caption": "Somi Somi",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308001191-IMG_5530.jpeg",
       "focalX": 50,
-      "focalY": 50
+      "focalY": 33
     },
     {
       "id": 13,
-      "caption": "IMG 5573",
+      "caption": "Golden Girl ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307993676-IMG_5573.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 47,
+      "focalY": 82
     },
     {
       "id": 14,
-      "caption": "IMG 4132",
+      "caption": "My Angel ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307967806-IMG_4132.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 54,
+      "focalY": 48
     },
     {
       "id": 15,
-      "caption": "lp image",
+      "caption": "Miami",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307956732-lp_image.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 53,
+      "focalY": 77
     },
     {
       "id": 16,
-      "caption": "E765E9A8 3E10 4A0C AE21 65FFF5B59111 97219 00000D54A39595F6",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307951239-E765E9A8-3E10-4A0C-AE21-65FFF5B59111-97219-00000D54A39595F6.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "Korea",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307951239-E765E9A8-3E10-4A0C-AE21-65FFF5B59111-97219-00000D54A39595F6.jpeg"
     },
     {
       "id": 17,
-      "caption": "IMG 6016",
+      "caption": "Big Boi",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308004710-IMG_6016.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 49,
+      "focalY": 68
     },
     {
       "id": 18,
-      "caption": "IMG 6196",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308003683-IMG_6196.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "BACK",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308003683-IMG_6196.jpeg"
     },
     {
       "id": 19,
-      "caption": "IMG 4376",
+      "caption": "🤤",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307963953-IMG_4376.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 51,
+      "focalY": 36
     },
     {
       "id": 20,
-      "caption": "lp image",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307953384-lp_image.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "my cutie baby ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307953384-lp_image.jpeg"
     },
     {
       "id": 21,
-      "caption": "IMG 6490",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307992388-IMG_6490.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "Guess where? ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307992388-IMG_6490.jpeg"
     },
     {
       "id": 22,
-      "caption": "IMG 4588",
+      "caption": "Boston!!!",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308003669-IMG_4588.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 51,
+      "focalY": 64
     },
     {
       "id": 23,
-      "caption": "IMG 4644",
+      "caption": "third wheeling ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307985606-IMG_4644.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 51,
+      "focalY": 54
     },
     {
       "id": 24,
-      "caption": "IMG 4651",
+      "caption": "lol stevie and reena ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308002216-IMG_4651.jpeg",
       "focalX": 50,
-      "focalY": 50
+      "focalY": 69
     },
     {
       "id": 25,
       "caption": "DSCN2402",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307998729-DSCN2402.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307998729-DSCN2402.jpeg"
     },
     {
       "id": 26,
-      "caption": "IMG 6824",
-      "url": null,
-      "focalX": 50,
-      "focalY": 50
+      "caption": "sleeping beauty ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475711153-IMG_6950.jpeg"
     },
     {
       "id": 27,
-      "caption": "IMG 6975",
+      "caption": "glasses girl ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307983032-IMG_6975.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 46,
+      "focalY": 53
     },
     {
       "id": 28,
-      "caption": "IMG 7035",
+      "caption": "HAPPY",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307996314-IMG_7035.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "focalX": 51,
+      "focalY": 26
     },
     {
       "id": 29,
-      "caption": "IMG 7037",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307991709-IMG_7037.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "your crush ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307991709-IMG_7037.jpeg"
     },
     {
       "id": 30,
-      "caption": "IMG 3596",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308002662-IMG_3596.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "KISSING ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308002662-IMG_3596.jpeg"
     },
     {
       "id": 31,
-      "caption": "IMG 5723",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307990834-IMG_5723.png",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "GREEN TIME ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307990834-IMG_5723.png"
     },
     {
       "id": 32,
-      "caption": "IMG 0255",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307995111-IMG_0255.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "cutest ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307995111-IMG_0255.jpeg"
     },
     {
       "id": 33,
-      "caption": "IMG 7315",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307994573-IMG_7315.jpeg",
-      "focalX": 50,
-      "focalY": 50
+      "caption": "BIG ARMS ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777307994573-IMG_7315.jpeg"
+    },
+    {
+      "id": 34,
+      "caption": "Pottery Date ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475972044-IMG_7249.jpeg",
+      "focalX": 53,
+      "focalY": 76
+    },
+    {
+      "id": 35,
+      "caption": "Guess where? ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777475998138-IMG_7146.jpeg"
+    },
+    {
+      "id": 36,
+      "caption": "im so lucky ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476018968-IMG_5401.jpeg"
+    },
+    {
+      "id": 37,
+      "caption": "everyone loves my girl ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476044669-IMG_4956.jpeg",
+      "focalX": -75,
+      "focalY": -161
+    },
+    {
+      "id": 38,
+      "caption": "sumer!",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476087719-AA003A.jpeg"
+    },
+    {
+      "id": 40,
+      "caption": "KISSING ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476089949-IMG_8599.jpeg"
+    },
+    {
+      "id": 41,
+      "caption": "Seattle!!",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476189979-IMG_4874.jpeg"
+    },
+    {
+      "id": 42,
+      "caption": "BIG GUY ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476190468-IMG_6115.jpeg"
+    },
+    {
+      "id": 45,
+      "caption": "hehehehe",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476186137-IMG_6757.jpeg"
     }
   ],
   "messages": [
