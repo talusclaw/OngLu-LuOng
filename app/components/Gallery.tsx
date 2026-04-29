@@ -53,42 +53,35 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* Preview: bento grid — 1 large (top-left 2×2) + 5 equal small tiles */}
+        {/* Preview: square bento — aspect-ratio:1 grid makes every cell a perfect square */}
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
-          gridTemplateRows: "repeat(3, 200px)",
-          gap: "12px",
+          gridTemplateRows: "repeat(3, 1fr)",
+          gridTemplateAreas: '"a a b" "a a c" "d e f"',
+          aspectRatio: "1",
+          gap: 12,
         }}>
-          {preview.map((item, i) => {
-            const placement: React.CSSProperties =
-              i === 0 ? { gridColumn: "1 / 3", gridRow: "1 / 3" } :  // large top-left (2×2)
-              i === 1 ? { gridColumn: 3, gridRow: 1 } :               // small top-right
-              i === 2 ? { gridColumn: 3, gridRow: 2 } :               // small mid-right
-              i === 3 ? { gridColumn: 1, gridRow: 3 } :               // small bottom-left
-              i === 4 ? { gridColumn: 2, gridRow: 3 } :               // small bottom-mid
-                        { gridColumn: 3, gridRow: 3 };                 // small bottom-right
-            return (
-              <div key={item.id}
-                className="group relative overflow-hidden rounded-2xl cursor-pointer"
-                style={{ ...placement, border: "1px solid rgba(255,255,255,0.06)" }}
-                onClick={() => setOpen(true)}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.url || `https://picsum.photos/seed/${item.id * 10}/600/600`}
-                  alt={item.caption}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
-                />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
-                  style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
-                  <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.92)" }}>
-                    {item.caption}
-                  </p>
-                </div>
+          {(["a","b","c","d","e","f"] as const).map((area, idx) => (
+            <div key={preview[idx].id}
+              className="group relative overflow-hidden rounded-2xl cursor-pointer"
+              style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
+              onClick={() => setOpen(true)}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
+                alt={preview[idx].caption}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                style={{ objectPosition: `${preview[idx].focalX ?? 50}% ${preview[idx].focalY ?? 50}%` }}
+              />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
+                style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
+                <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.92)" }}>
+                  {preview[idx].caption}
+                </p>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
         {/* Footer row: count + view all */}
