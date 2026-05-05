@@ -103,8 +103,10 @@
       "emoji": "🥟",
       "description": "",
       "recipe": "",
-      "photos": [],
-      "coverPhoto": null
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778002688260-IMG_7647.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778002688260-IMG_7647.jpeg"
     }
   ],
   "gallery": [
