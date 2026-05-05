@@ -457,7 +457,9 @@
     {
       "id": 50,
       "caption": "IMG 7251",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014704082-IMG_7251.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014704082-IMG_7251.jpeg",
+      "focalX": 51,
+      "focalY": 30
     },
     {
       "id": 51,
@@ -468,6 +470,26 @@
       "id": 52,
       "caption": "IMG 3600",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014698015-IMG_3600.jpeg"
+    },
+    {
+      "id": 53,
+      "caption": "IMG 7073",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014752730-IMG_7073.jpeg"
+    },
+    {
+      "id": 54,
+      "caption": "IAN00446",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014750867-IAN00446.jpeg"
+    },
+    {
+      "id": 55,
+      "caption": "IMG 7050",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014754289-IMG_7050.jpeg"
+    },
+    {
+      "id": 56,
+      "caption": "IMG 3361",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014755798-IMG_3361.jpeg"
     }
   ],
   "messages": [
