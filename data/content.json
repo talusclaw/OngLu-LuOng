@@ -16,23 +16,31 @@
     },
     {
       "id": 2,
-      "date": "Jason Leaves, Part 1",
+      "date": "April 2025 ",
       "emoji": "🌴🍹🍉⛱️🥥",
-      "title": "Hawaii!!",
-      "description": "Where you realized I'm better than Alec!",
+      "title": "Jason Leaves, Part 1",
+      "description": "Hawaii!!\nWhere you realized I'm better than Alec!",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476696469-IMG_5369.jpeg"
     },
     {
+      "id": 8,
+      "date": "May 2025",
+      "emoji": "🎣",
+      "title": "Baby in June Lake ",
+      "description": "",
+      "photo": null
+    },
+    {
       "id": 3,
-      "date": "Jason Leaves, Part 2",
+      "date": "Summer 2025 ",
       "emoji": "🇹🇭",
-      "title": "Taiwan, Korea, Thailand ",
-      "description": "Spending time apart, drew us closer together. ",
+      "title": "Jason Leaves, Part 2",
+      "description": "Taiwan, Korea, Thailand\nSpending time apart, drew us closer together. ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777480902445-IMG_5982.jpeg"
     },
     {
       "id": 4,
-      "date": "June ",
+      "date": "July 20, 2025 ",
       "emoji": "",
       "title": "BOYFRIEND - GIRLFRIEND ",
       "description": "",
@@ -61,6 +69,14 @@
       "title": "Sisters in NYC ",
       "description": "",
       "photo": null
+    },
+    {
+      "id": 9,
+      "date": "June 2025",
+      "emoji": "☀️",
+      "title": "Fairmont Hotel ",
+      "description": "Our ",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013005135-IMG_5512.jpeg"
     }
   ],
   "greatestHits": [
