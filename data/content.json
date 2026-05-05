@@ -45,6 +45,14 @@
       "title": "Jason's BDay ",
       "description": "The apple of my eye ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778000151076-IMG_4301.jpeg"
+    },
+    {
+      "id": 6,
+      "date": "January 2026",
+      "emoji": "✨",
+      "title": "",
+      "description": "",
+      "photo": null
     }
   ],
   "greatestHits": [
