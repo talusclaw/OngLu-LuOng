@@ -56,15 +56,30 @@ function Field({ label, value, onChange, multiline = false, placeholder = "" }: 
   );
 }
 
-function Card({ children, title, onDelete }: { children: React.ReactNode; title: string; onDelete?: () => void }) {
+function Card({ children, title, onDelete, onMoveUp, onMoveDown }: {
+  children: React.ReactNode; title: string;
+  onDelete?: () => void; onMoveUp?: () => void; onMoveDown?: () => void;
+}) {
   return (
     <div className="rounded-2xl border p-6 flex flex-col gap-4" style={{ background: BG, borderColor: B }}>
       <div className="flex items-center justify-between">
         <h3 className="font-display text-xl" style={{ color: D }}>{title}</h3>
-        {onDelete && (
-          <button onClick={onDelete} className="text-xs px-2.5 py-1 rounded-lg transition-opacity hover:opacity-70"
-            style={{ background: "#FEE2E2", color: "#991B1B" }}>Remove</button>
-        )}
+        <div className="flex items-center gap-1.5">
+          {(onMoveUp || onMoveDown) && (
+            <div className="flex items-center gap-0.5">
+              <button onClick={onMoveUp} disabled={!onMoveUp}
+                className="w-7 h-7 rounded flex items-center justify-center transition-opacity disabled:opacity-20 hover:opacity-70"
+                style={{ background: "#EDE9FE", color: P, fontSize: "0.75rem" }}>▲</button>
+              <button onClick={onMoveDown} disabled={!onMoveDown}
+                className="w-7 h-7 rounded flex items-center justify-center transition-opacity disabled:opacity-20 hover:opacity-70"
+                style={{ background: "#EDE9FE", color: P, fontSize: "0.75rem" }}>▼</button>
+            </div>
+          )}
+          {onDelete && (
+            <button onClick={onDelete} className="text-xs px-2.5 py-1 rounded-lg transition-opacity hover:opacity-70"
+              style={{ background: "#FEE2E2", color: "#991B1B" }}>Remove</button>
+          )}
+        </div>
       </div>
       {children}
     </div>
@@ -395,6 +410,11 @@ export default function AdminPage() {
     return { ...c, timeline: [...c.timeline, { id: maxId + 1, date: "", emoji: "✨", title: "", description: "", photo: null }] };
   });
   const removeTimeline = (i: number) => upd((c) => ({ ...c, timeline: c.timeline.filter((_, j) => j !== i) }));
+  const moveTimeline = (i: number, dir: -1 | 1) => upd((c) => {
+    const t = [...c.timeline];
+    [t[i], t[i + dir]] = [t[i + dir], t[i]];
+    return { ...c, timeline: t };
+  });
 
   const updateHit = (i: number, k: keyof GreatestHit, v: string) => upd((c) => {
     const greatestHits = [...c.greatestHits]; greatestHits[i] = { ...greatestHits[i], [k]: v }; return { ...c, greatestHits };
@@ -508,7 +528,10 @@ export default function AdminPage() {
                 Add as many events as you like. <strong>Date</strong> is freeform — e.g. &ldquo;April 2025&rdquo; or &ldquo;Summer&rdquo;.
               </div>
               {content.timeline.map((item, i) => (
-                <Card key={item.id} title={`Event ${i + 1}`} onDelete={content.timeline.length > 1 ? () => removeTimeline(i) : undefined}>
+                <Card key={item.id} title={`Event ${i + 1}`}
+                  onDelete={content.timeline.length > 1 ? () => removeTimeline(i) : undefined}
+                  onMoveUp={i > 0 ? () => moveTimeline(i, -1) : undefined}
+                  onMoveDown={i < content.timeline.length - 1 ? () => moveTimeline(i, 1) : undefined}>
                   <div className="grid grid-cols-2 gap-4">
                     <Field label="Date" value={item.date} onChange={(v) => updateTimeline(i, "date", v)} placeholder="April 2025" />
                     <Field label="Emoji" value={item.emoji} onChange={(v) => updateTimeline(i, "emoji", v)} placeholder="🌸" />
