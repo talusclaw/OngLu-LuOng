@@ -108,6 +108,17 @@
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012170369-IMG_4871.HEIC"
       ],
       "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012170369-IMG_4871.HEIC"
+    },
+    {
+      "id": 6,
+      "dish": "Mama On",
+      "emoji": "🍽️",
+      "description": "",
+      "recipe": "",
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012269330-IMG_6286.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012269330-IMG_6286.jpeg"
     }
   ],
   "gallery": [
