@@ -52,7 +52,7 @@
       "id": 1,
       "dish": "Phở",
       "emoji": "🍜",
-      "description": "A slow-simmered broth with star anise and charred ginger, ladled over silky rice noodles. The dish that started it all.",
+      "description": "",
       "recipe": "Ingredients: \n\nRecipe: ",
       "photos": [
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777308059860-IMG_6845.jpeg"
@@ -63,7 +63,7 @@
       "id": 2,
       "dish": "Birria Tacos ",
       "emoji": "🌮",
-      "description": "Delicate steamed rice rolls filled with seasoned pork and wood ear mushrooms — a weekend morning tradition.",
+      "description": "",
       "recipe": "",
       "photos": [
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477027036-IMG_5028.jpeg"
@@ -74,7 +74,7 @@
       "id": 3,
       "dish": "Beef Kofta ",
       "emoji": "🇬🇷",
-      "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools.",
+      "description": "",
       "recipe": "",
       "photos": [
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777477056139-IMG_6283.jpeg"
@@ -85,7 +85,7 @@
       "id": 4,
       "dish": "Dinner for the Ongs! ",
       "emoji": "🥟",
-      "description": "Three-color dessert layered with mung beans, red beans, and pandan jelly — sweet endings after every gathering.",
+      "description": "",
       "recipe": "",
       "photos": [],
       "coverPhoto": null
