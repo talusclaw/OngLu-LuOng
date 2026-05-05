@@ -79,6 +79,22 @@
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777481000035-IMG_4503.jpeg"
     },
     {
+      "id": 13,
+      "date": "August 2025 ",
+      "emoji": "🍦🥧",
+      "title": "RANDOM Boston Trip",
+      "description": "",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013894273-IMG_4586.jpeg"
+    },
+    {
+      "id": 14,
+      "date": "August 2025 ",
+      "emoji": "🛥️",
+      "title": "Meera et al's Bday ",
+      "description": "",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014045628-IMG_4754.jpeg"
+    },
+    {
       "id": 6,
       "date": "March 2026",
       "emoji": "💃",
@@ -103,12 +119,12 @@
       "photo": null
     },
     {
-      "id": 13,
-      "date": "August 2025 ",
-      "emoji": "🍦🥧",
-      "title": "RANDOM Boston Trip",
-      "description": "C******e",
-      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013894273-IMG_4586.jpeg"
+      "id": 15,
+      "date": "",
+      "emoji": "✨",
+      "title": "",
+      "description": "",
+      "photo": null
     }
   ],
   "greatestHits": [
