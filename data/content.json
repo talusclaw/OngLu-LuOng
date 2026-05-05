@@ -99,12 +99,13 @@
     },
     {
       "id": 5,
-      "dish": "Dinner for the Ongs! ",
+      "dish": "Dumplings /  for the Ongs! ",
       "emoji": "🥟",
       "description": "",
       "recipe": "",
       "photos": [
-        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778002757536-IMG_4875.jpeg"
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778002757536-IMG_4875.jpeg",
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012170369-IMG_4871.HEIC"
       ],
       "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778002757536-IMG_4875.jpeg"
     }
