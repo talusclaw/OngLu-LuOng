@@ -496,17 +496,9 @@
     {
       "id": 57,
       "caption": "lp image",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014867280-lp_image.jpeg"
-    },
-    {
-      "id": 58,
-      "caption": "IMG 6825",
-      "url": null
-    },
-    {
-      "id": 59,
-      "caption": "IMG 1582",
-      "url": null
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014867280-lp_image.jpeg",
+      "focalX": 51,
+      "focalY": 60
     }
   ],
   "messages": [
