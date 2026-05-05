@@ -35,15 +35,15 @@
       "date": "June ",
       "emoji": "",
       "title": "BOYFRIEND - GIRLFRIEND ",
-      "description": "Holidays, warmth, and the quiet joy of belonging. Winter reminded us that no matter the season, family is always the warmest place to be.",
+      "description": "",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777481000035-IMG_4503.jpeg"
     },
     {
       "id": 5,
       "date": "April 2026",
-      "emoji": "✨",
+      "emoji": "🍎",
       "title": "Jason's BDay ",
-      "description": "",
+      "description": "The apple of my eye ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778000151076-IMG_4301.jpeg"
     }
   ],
@@ -72,8 +72,8 @@
     },
     {
       "id": 3,
-      "dish": "Bò Lúc Lắc",
-      "emoji": "🥩",
+      "dish": "Beef Kofta ",
+      "emoji": "🇬🇷",
       "description": "Shaking beef, wok-tossed with butter, garlic, and soy — smoky, rich, and gone before the pan cools.",
       "recipe": "",
       "photos": [
