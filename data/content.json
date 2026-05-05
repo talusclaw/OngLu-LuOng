@@ -23,6 +23,14 @@
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777476696469-IMG_5369.jpeg"
     },
     {
+      "id": 10,
+      "date": "May 2025",
+      "emoji": "🍲",
+      "title": "Flushing Moment ",
+      "description": "Where our hot pot addiction began ",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013115930-IMG_6846.jpeg"
+    },
+    {
       "id": 8,
       "date": "May 2025",
       "emoji": "🎣",
@@ -31,12 +39,36 @@
       "photo": null
     },
     {
+      "id": 9,
+      "date": "June 2025",
+      "emoji": "☀️",
+      "title": "Fairmont Hotel ",
+      "description": "Our first time to the west coast together!!!",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013005135-IMG_5512.jpeg"
+    },
+    {
       "id": 3,
       "date": "Summer 2025 ",
       "emoji": "🇹🇭",
       "title": "Jason Leaves, Part 2",
       "description": "Taiwan, Korea, Thailand\nSpending time apart, drew us closer together. ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777480902445-IMG_5982.jpeg"
+    },
+    {
+      "id": 11,
+      "date": "June 2025 ",
+      "emoji": "👼",
+      "title": "Baby at Brinna's Beach Bungalow ",
+      "description": "the prettiest girl",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013299690-lp_image.jpeg"
+    },
+    {
+      "id": 12,
+      "date": "July 2026 ",
+      "emoji": "🔥",
+      "title": "Baby in MIAMI ",
+      "description": "Mommy Mogging Me ",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013398959-IMG_4376.jpeg"
     },
     {
       "id": 4,
@@ -69,38 +101,6 @@
       "title": "Sisters in NYC ",
       "description": "",
       "photo": null
-    },
-    {
-      "id": 9,
-      "date": "June 2025",
-      "emoji": "☀️",
-      "title": "Fairmont Hotel ",
-      "description": "Our first time to the west coast together!!!",
-      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013005135-IMG_5512.jpeg"
-    },
-    {
-      "id": 10,
-      "date": "May 2025",
-      "emoji": "🍲",
-      "title": "Flushing Moment ",
-      "description": "Where our hot pot addiction began ",
-      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013115930-IMG_6846.jpeg"
-    },
-    {
-      "id": 11,
-      "date": "June 2025 ",
-      "emoji": "👼",
-      "title": "Baby at Brinna's Beach Bungalow ",
-      "description": "the prettiest girl",
-      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013299690-lp_image.jpeg"
-    },
-    {
-      "id": 12,
-      "date": "July 2026 ",
-      "emoji": "🔥",
-      "title": "Baby in MIAMI ",
-      "description": "Mommy Mogging Me ",
-      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778013398959-IMG_4376.jpeg"
     }
   ],
   "greatestHits": [
