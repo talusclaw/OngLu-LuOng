@@ -446,17 +446,17 @@
     },
     {
       "id": 48,
-      "caption": "IMG 3599",
+      "caption": "Prom!!",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014704181-IMG_3599.jpeg"
     },
     {
       "id": 49,
-      "caption": "IMG 5467",
+      "caption": "Jason's Home!",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014704977-IMG_5467.jpeg"
     },
     {
       "id": 50,
-      "caption": "IMG 7251",
+      "caption": "Rosy Cheeks ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014704082-IMG_7251.jpeg",
       "focalX": 51,
       "focalY": 30
@@ -474,7 +474,9 @@
     {
       "id": 53,
       "caption": "IMG 7073",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014752730-IMG_7073.jpeg"
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014752730-IMG_7073.jpeg",
+      "focalX": 53,
+      "focalY": 94
     },
     {
       "id": 54,
@@ -483,13 +485,28 @@
     },
     {
       "id": 55,
-      "caption": "IMG 7050",
+      "caption": "Cursed Image ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014754289-IMG_7050.jpeg"
     },
     {
       "id": 56,
-      "caption": "IMG 3361",
+      "caption": "Angel ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014755798-IMG_3361.jpeg"
+    },
+    {
+      "id": 57,
+      "caption": "lp image",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778014867280-lp_image.jpeg"
+    },
+    {
+      "id": 58,
+      "caption": "IMG 6825",
+      "url": null
+    },
+    {
+      "id": 59,
+      "caption": "IMG 1582",
+      "url": null
     }
   ],
   "messages": [
