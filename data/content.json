@@ -111,14 +111,25 @@
     },
     {
       "id": 6,
-      "dish": "Mama On",
-      "emoji": "🍽️",
+      "dish": "Mama Ong's Secret Chicken ",
+      "emoji": "🐔",
       "description": "",
       "recipe": "",
       "photos": [
         "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012269330-IMG_6286.jpeg"
       ],
       "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012269330-IMG_6286.jpeg"
+    },
+    {
+      "id": 7,
+      "dish": "",
+      "emoji": "🍽️",
+      "description": "",
+      "recipe": "",
+      "photos": [
+        "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012311839-IMG_6296.jpeg"
+      ],
+      "coverPhoto": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778012311839-IMG_6296.jpeg"
     }
   ],
   "gallery": [
