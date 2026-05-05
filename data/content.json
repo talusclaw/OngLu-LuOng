@@ -40,10 +40,10 @@
     },
     {
       "id": 6,
-      "date": "January 2026",
-      "emoji": "✨",
-      "title": "",
-      "description": "",
+      "date": "March 2026",
+      "emoji": "💃",
+      "title": "Mission Night ",
+      "description": "My sexy baby ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778001322685-DSCN2822.jpeg"
     },
     {
@@ -53,6 +53,14 @@
       "title": "Jason's BDay ",
       "description": "The apple of my eye ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778000151076-IMG_4301.jpeg"
+    },
+    {
+      "id": 7,
+      "date": "May 2026",
+      "emoji": "🍎",
+      "title": "Sisters in NYC ",
+      "description": "",
+      "photo": null
     }
   ],
   "greatestHits": [
