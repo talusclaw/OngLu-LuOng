@@ -39,20 +39,20 @@
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1777481000035-IMG_4503.jpeg"
     },
     {
+      "id": 6,
+      "date": "January 2026",
+      "emoji": "✨",
+      "title": "",
+      "description": "",
+      "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778001322685-DSCN2822.jpeg"
+    },
+    {
       "id": 5,
       "date": "April 2026",
       "emoji": "🍎",
       "title": "Jason's BDay ",
       "description": "The apple of my eye ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778000151076-IMG_4301.jpeg"
-    },
-    {
-      "id": 6,
-      "date": "January 2026",
-      "emoji": "✨",
-      "title": "",
-      "description": "",
-      "photo": null
     }
   ],
   "greatestHits": [
