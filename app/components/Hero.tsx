@@ -1,7 +1,6 @@
 "use client";
 
 import content from "@/data/content.json";
-import { SleepingCat } from "@/app/components/Pets";
 
 export default function Hero() {
   const { family } = content;
@@ -103,9 +102,6 @@ export default function Hero() {
           <span className="section-label" style={{ color: "var(--t-d-3)" }}>Explore Our Year</span>
         </div>
       </div>
-
-      {/* Easter egg — sleeping cat, bottom-right corner */}
-      <SleepingCat style={{ position: "absolute", bottom: 44, right: 32, opacity: 0.82, zIndex: 5 }} />
 
       {/* Bottom fade into next section */}
       <div className="absolute bottom-0 left-0 right-0 h-36 pointer-events-none"
