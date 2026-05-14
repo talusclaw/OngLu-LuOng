@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import content from "@/data/content.json";
 
 /* ─────────────────────────────────────────────────────────
@@ -20,120 +20,93 @@ const pets = (content as any).pets ?? {};
 const KIRI_MSGS: string[] = (pets.kiriMessages ?? []).filter(Boolean);
 const DORI_MSGS: string[] = (pets.doriMessages ?? []).filter(Boolean);
 
-function PetModal({ name, emoji, message, onClose }: {
-  name: string; emoji: string; message: string; onClose: () => void;
-}) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
-
-  return (
-    <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-6 animate-fade-in"
-      style={{ background: "rgba(10,7,22,0.75)", backdropFilter: "blur(10px)" }}
-      onClick={onClose}>
-      <div
-        className="relative rounded-3xl"
-        style={{
-          maxWidth: 340,
-          width: "100%",
-          background: "var(--bg-light)",
-          boxShadow: "0 28px 70px rgba(0,0,0,0.45), 0 0 0 1px rgba(124,58,237,0.18)",
-        }}
-        onClick={(e) => e.stopPropagation()}>
-
-        {/* Top accent bar */}
-        <div className="h-1 w-full rounded-t-3xl"
-          style={{ background: "linear-gradient(90deg, #7C3AED, #10B981)" }} />
-
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-opacity hover:opacity-60"
-          style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)", color: "var(--t-l-3)", fontSize: "0.9rem" }}>
-          ✕
-        </button>
-
-        <div className="px-7 pt-6 pb-8 flex flex-col gap-4">
-          {/* Name row */}
-          <div className="flex items-center gap-3">
-            <span style={{ fontSize: "2rem", lineHeight: 1 }}>{emoji}</span>
-            <p className="font-display font-medium" style={{ fontSize: "1.25rem", color: "var(--t-l-1)" }}>
-              {name}
-            </p>
-          </div>
-
-          {/* Divider */}
-          <div className="h-px" style={{ background: "linear-gradient(90deg, rgba(124,58,237,0.4), rgba(16,185,129,0.3), transparent)" }} />
-
-          {/* Message */}
-          <p className="font-display font-light italic leading-[1.8] whitespace-pre-line"
-            style={{ fontSize: "0.98rem", color: "var(--t-l-2)" }}>
-            &ldquo;{message}&rdquo;
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PetWrap({
   children,
   style,
   messages,
-  petName,
   petEmoji,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
   messages?: string[];
-  petName?: string;
   petEmoji?: string;
 }) {
   const [up, setUp] = useState(false);
-  const [currentMsg, setCurrentMsg] = useState<string | null>(null);
+  const [shownMsg, setShownMsg] = useState<string | null>(null);
 
-  function handleClick(e: React.MouseEvent) {
-    if (!messages?.length) return;
-    e.stopPropagation();
-    const msg = messages[Math.floor(Math.random() * messages.length)];
-    setCurrentMsg(msg);
+  function handleEnter() {
+    setUp(true);
+    if (messages?.length) {
+      setShownMsg(messages[Math.floor(Math.random() * messages.length)]);
+    }
+  }
+
+  function handleLeave() {
+    setUp(false);
+    setShownMsg(null);
   }
 
   return (
-    <>
-      <div
-        aria-hidden="true"
-        onMouseEnter={() => setUp(true)}
-        onMouseLeave={() => setUp(false)}
-        onClick={messages?.length ? handleClick : undefined}
-        style={{
-          display: "inline-block",
-          cursor: "pointer",
-          userSelect: "none",
-          transition: "transform 0.35s cubic-bezier(.34,1.56,.64,1)",
-          transform: up ? "translateY(-9px)" : "translateY(0)",
-          ...style,
-        }}
-      >
-        {children}
-      </div>
+    <div
+      aria-hidden="true"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      style={{
+        display: "inline-block",
+        position: "relative",
+        cursor: "default",
+        userSelect: "none",
+        transition: "transform 0.35s cubic-bezier(.34,1.56,.64,1)",
+        transform: up ? "translateY(-9px)" : "translateY(0)",
+        ...style,
+      }}
+    >
+      {children}
 
-      {currentMsg && petName && petEmoji && (
-        <PetModal
-          name={petName}
-          emoji={petEmoji}
-          message={currentMsg}
-          onClose={() => setCurrentMsg(null)}
-        />
+      {/* Speech bubble — appears above on hover */}
+      {shownMsg && (
+        <div style={{
+          position: "absolute",
+          bottom: "calc(100% + 10px)",
+          left: "50%",
+          transform: "translateX(-50%)",
+          background: "#FEFCFF",
+          border: "1px solid rgba(124,58,237,0.22)",
+          borderRadius: 14,
+          padding: "8px 13px",
+          minWidth: 110,
+          maxWidth: 190,
+          boxShadow: "0 6px 20px rgba(0,0,0,0.14)",
+          zIndex: 50,
+          pointerEvents: "none",
+          textAlign: "center",
+          whiteSpace: "normal",
+        }}>
+          <p style={{
+            fontSize: "0.77rem",
+            color: "#3D2A6E",
+            fontStyle: "italic",
+            lineHeight: 1.55,
+            fontFamily: "var(--font-inter)",
+            wordBreak: "break-word",
+          }}>
+            {petEmoji} &ldquo;{shownMsg}&rdquo;
+          </p>
+          {/* Triangle pointer */}
+          <div style={{
+            position: "absolute",
+            bottom: -7,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 0,
+            height: 0,
+            borderLeft: "7px solid transparent",
+            borderRight: "7px solid transparent",
+            borderTop: "7px solid #FEFCFF",
+          }} />
+        </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -154,7 +127,7 @@ function Eyes({ lx, ly, rx, ry }: { lx:number; ly:number; rx:number; ry:number }
 ═══════════════════════════════════════ */
 export function SittingCat({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} messages={KIRI_MSGS} petName="Kiri" petEmoji="🐱">
+    <PetWrap style={style} messages={KIRI_MSGS} petEmoji="🐱">
       <svg width="68" height="92" viewBox="0 0 68 92" fill="none">
         {/* Left ear */}
         <polygon points="13,18 6,2 24,12" fill={CAT} stroke={INK} strokeWidth={SW} strokeLinejoin="round"/>
@@ -188,7 +161,7 @@ export function SittingCat({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function SittingDog({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} messages={DORI_MSGS} petName="Dori" petEmoji="🐶">
+    <PetWrap style={style} messages={DORI_MSGS} petEmoji="🐶">
       <svg width="72" height="92" viewBox="0 0 72 92" fill="none">
         {/* Floppy ears (behind head) */}
         <ellipse cx="13" cy="38" rx="12" ry="10" fill={DOG2} stroke={INK} strokeWidth={SW} transform="rotate(-12,13,38)"/>
@@ -216,7 +189,7 @@ export function SittingDog({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function SleepingCat({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} messages={KIRI_MSGS} petName="Kiri" petEmoji="🐱">
+    <PetWrap style={style} messages={KIRI_MSGS} petEmoji="🐱">
       <svg width="92" height="62" viewBox="0 0 92 62" fill="none">
         {/* Tail wrapping around */}
         <path d="M14 46 Q4 38 8 26 Q12 16 20 24" stroke={CAT} strokeWidth={8} strokeLinecap="round"/>
@@ -246,7 +219,7 @@ export function SleepingCat({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function WavingDog({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} messages={DORI_MSGS} petName="Dori" petEmoji="🐶">
+    <PetWrap style={style} messages={DORI_MSGS} petEmoji="🐶">
       <svg width="80" height="96" viewBox="0 0 80 96" fill="none">
         {/* Waving arm (raised right) */}
         <ellipse cx="70" cy="46" rx="9" ry="7" fill={DOG} stroke={INK} strokeWidth={SW} transform="rotate(-40,70,46)"/>
@@ -279,7 +252,7 @@ export function WavingDog({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function PeekingCat({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} messages={KIRI_MSGS} petName="Kiri" petEmoji="🐱">
+    <PetWrap style={style} messages={KIRI_MSGS} petEmoji="🐱">
       {/* clip so only top half shows */}
       <svg width="68" height="38" viewBox="0 0 68 60" style={{ overflow: "hidden" }} fill="none">
         {/* Left ear */}
