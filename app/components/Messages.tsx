@@ -19,14 +19,18 @@ export default function Messages() {
           </div>
           <h2 className="font-display font-light"
             style={{ fontSize: "clamp(2.8rem, 7vw, 5rem)", color: "var(--t-l-1)", letterSpacing: "-0.01em" }}>
-            Family{" "}
-            <span className="gradient-text">Messages</span>
+            Quote{" "}
+            <span className="gradient-text">Wall</span>
           </h2>
           <div className="mt-6 flex items-center justify-center gap-3">
             <div className="h-px w-20" style={{ background: "linear-gradient(90deg, transparent, rgba(124,58,237,0.4))" }} />
             <div className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--green)" }} />
             <div className="h-px w-20" style={{ background: "linear-gradient(90deg, rgba(16,185,129,0.4), transparent)" }} />
           </div>
+          <p className="mt-5 font-display font-light italic"
+            style={{ fontSize: "clamp(0.9rem, 1.6vw, 1.05rem)", color: "var(--t-l-3)" }}>
+            Guess who said the quote — hover over the blurred name to reveal the answer!
+          </p>
         </div>
 
         {/* Easter egg — waving dog */}
@@ -69,7 +73,9 @@ export default function Messages() {
               {/* Author */}
               <div className="flex items-center gap-3 pt-2">
                 <div className="gradient-rule flex-1" />
-                <span className="section-label" style={{ color: "var(--purple)", flexShrink: 0 }}>
+                <span
+                  className="section-label blur hover:blur-none transition-all duration-300 cursor-help"
+                  style={{ color: "var(--purple)", flexShrink: 0 }}>
                   {msg.author}
                 </span>
               </div>
