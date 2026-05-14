@@ -8,6 +8,7 @@ type GreatestHit  = { id: number; dish: string; emoji: string; description: stri
 type GalleryItem  = { id: number; caption: string; url: string | null; focalX?: number; focalY?: number };
 type Message      = { author: string; message: string };
 type Letter       = { title: string; body: string };
+type Pets         = { kiriMessage: string; doriMessage: string };
 type Content = {
   family:       { name: string; tagline: string; anniversary: string; story: string };
   timeline:     TimelineItem[];
@@ -15,9 +16,10 @@ type Content = {
   gallery:      GalleryItem[];
   messages:     Message[];
   letter:       Letter;
+  pets:         Pets;
 };
 
-type Section = "family" | "timeline" | "hits" | "gallery" | "messages" | "letter";
+type Section = "family" | "timeline" | "hits" | "gallery" | "messages" | "letter" | "pets";
 
 const NAV: { id: Section; label: string; emoji: string }[] = [
   { id: "family",   label: "Family Info",   emoji: "🏡" },
@@ -26,6 +28,7 @@ const NAV: { id: Section; label: string; emoji: string }[] = [
   { id: "gallery",  label: "Gallery",        emoji: "🖼️" },
   { id: "messages", label: "Messages",       emoji: "💬" },
   { id: "letter",   label: "Hidden Letter",  emoji: "💌" },
+  { id: "pets",     label: "Pet Messages",   emoji: "🐾" },
 ];
 
 const P = "#7C3AED", G = "#059669", D = "#1E1B4B", B = "#DDD6FE", BG = "#FEFCFF";
@@ -460,6 +463,7 @@ export default function AdminPage() {
   const removeMessage = (i: number) => upd((c) => ({ ...c, messages: c.messages.filter((_, j) => j !== i) }));
 
   const updateLetter = (k: keyof Letter, v: string) => upd((c) => ({ ...c, letter: { ...c.letter, [k]: v } }));
+  const updatePets = (k: keyof Pets, v: string) => upd((c) => ({ ...c, pets: { ...c.pets, [k]: v } }));
 
   return (
     <div className="min-h-screen flex" style={{ background: "#F5F3FF", fontFamily: "var(--font-inter)" }}>
@@ -668,6 +672,21 @@ export default function AdminPage() {
                 </Card>
               ))}
               <AddButton onClick={addMessage} label="Add Message" color={G} />
+            </div>
+          )}
+
+          {/* ── Pet Messages ── */}
+          {!loading && content && section === "pets" && (
+            <div className="flex flex-col gap-5">
+              <div className="rounded-xl border px-5 py-4 text-sm" style={{ background: "#EDE9FE", borderColor: B, color: "#4C1D95" }}>
+                🐾 These messages pop up when visitors click on <strong>Kiri</strong> or <strong>Dori</strong> anywhere on the site. Leave blank to disable.
+              </div>
+              <Card title="🐱 Kiri's Message">
+                <Field label="Message" value={content.pets?.kiriMessage ?? ""} onChange={(v) => updatePets("kiriMessage", v)} multiline rows={5} placeholder="meow~ something sweet from Kiri…" />
+              </Card>
+              <Card title="🐶 Dori's Message">
+                <Field label="Message" value={content.pets?.doriMessage ?? ""} onChange={(v) => updatePets("doriMessage", v)} multiline rows={5} placeholder="woof! something sweet from Dori…" />
+              </Card>
             </div>
           )}
 

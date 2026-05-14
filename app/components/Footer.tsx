@@ -34,14 +34,15 @@ export default function Footer() {
         }} />
 
       <div className="relative z-10">
-        {/* Easter egg — cat & dog, click to reveal letter */}
-        <div className="flex justify-center mb-4">
-          <div
+        {/* Easter egg — cat & dog */}
+        <div className="flex flex-col items-center gap-2 mb-4">
+          <PetsDuo style={{ opacity: 0.9 }} />
+          <button
             onClick={() => setOpen(true)}
-            title="A secret is hiding here…"
-            style={{ cursor: "pointer" }}>
-            <PetsDuo style={{ opacity: 0.9 }} />
-          </div>
+            className="section-label transition-opacity hover:opacity-60"
+            style={{ color: "var(--t-d-3)", fontSize: "0.65rem", letterSpacing: "0.12em" }}>
+            💌 a letter
+          </button>
         </div>
 
         {/* Name */}
