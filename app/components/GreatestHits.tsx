@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import content from "@/data/content.json";
 
 type Hit = {
@@ -12,6 +15,18 @@ type Hit = {
 
 export default function GreatestHits() {
   const hits = content.greatestHits as Hit[];
+  const [selected, setSelected] = useState<Hit | null>(null);
+
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSelected(null); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [selected]);
 
   return (
     <section id="greatest-hits" className="py-28 px-6"
@@ -44,15 +59,26 @@ export default function GreatestHits() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {hits.map((hit) => {
             const cover = hit.coverPhoto || hit.photos?.[0] || null;
+            const hasMore = !!(hit.recipe || (hit.description && hit.description.length > 120));
             return (
               <div key={hit.id} className="glass-light rounded-2xl overflow-hidden flex flex-col">
-                {/* Cover photo */}
-                {cover && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={cover} alt={hit.dish} className="w-full object-cover" style={{ height: 160 }} />
+
+                {/* Cover photo — click to expand */}
+                {cover ? (
+                  <div className="relative cursor-pointer group" onClick={() => setSelected(hit)}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={cover} alt={hit.dish} className="w-full object-cover" style={{ height: 160 }} />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      style={{ background: "rgba(16,12,36,0.5)" }}>
+                      <span className="section-label" style={{ color: "#fff", letterSpacing: "0.1em" }}>View Recipe →</span>
+                    </div>
+                  </div>
+                ) : (
+                  /* No photo: make emoji orb the click target */
+                  <div className="pt-6 px-6 cursor-pointer" onClick={() => hasMore ? setSelected(hit) : undefined} />
                 )}
 
-                <div className="p-6 flex flex-col gap-4 flex-1">
+                <div className="p-6 flex flex-col gap-3 flex-1">
                   {/* Emoji orb */}
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shrink-0"
                     style={{
@@ -69,32 +95,99 @@ export default function GreatestHits() {
                     {hit.dish}
                   </h3>
 
-                  {/* Description */}
+                  {/* Description — clamped to 3 lines */}
                   <p className="leading-relaxed"
-                    style={{ fontSize: "0.9rem", color: "var(--t-l-2)", fontWeight: 300 }}>
+                    style={{
+                      fontSize: "0.9rem", color: "var(--t-l-2)", fontWeight: 300,
+                      display: "-webkit-box", WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical", overflow: "hidden",
+                    }}>
                     {hit.description}
                   </p>
 
-                  {/* Recipe */}
-                  {hit.recipe && (
-                    <div className="pt-3 border-t" style={{ borderColor: "rgba(124,58,237,0.12)" }}>
-                      <p className="section-label mb-2" style={{ color: "var(--purple)" }}>Recipe</p>
-                      <p className="leading-relaxed whitespace-pre-line"
-                        style={{ fontSize: "0.85rem", color: "var(--t-l-2)", fontWeight: 300 }}>
-                        {hit.recipe}
-                      </p>
-                    </div>
+                  {/* Expand prompt */}
+                  {hasMore && (
+                    <button onClick={() => setSelected(hit)}
+                      className="self-start transition-opacity hover:opacity-70"
+                      style={{ fontSize: "0.78rem", color: "var(--purple)", fontFamily: "var(--font-inter)", fontWeight: 500 }}>
+                      {hit.recipe ? "View recipe →" : "Read more →"}
+                    </button>
                   )}
 
-                  {/* Bottom accent */}
                   <div className="glow-line mt-auto" style={{ height: 1, opacity: 0.6 }} />
                 </div>
               </div>
             );
           })}
         </div>
-
       </div>
+
+      {/* ── Expanded modal ── */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in"
+          style={{ background: "rgba(10,7,22,0.75)", backdropFilter: "blur(12px)" }}
+          onClick={() => setSelected(null)}>
+          <div
+            className="relative w-full rounded-3xl overflow-y-auto"
+            style={{ maxWidth: 520, maxHeight: "85vh", background: "var(--bg-light)", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
+            onClick={(e) => e.stopPropagation()}>
+
+            {/* Photo */}
+            {(selected.coverPhoto || selected.photos?.[0]) && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={selected.coverPhoto || selected.photos?.[0]}
+                alt={selected.dish}
+                className="w-full object-cover"
+                style={{ height: 240 }}
+              />
+            )}
+
+            {/* Close button */}
+            <button
+              onClick={() => setSelected(null)}
+              className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-70"
+              style={{ background: "rgba(0,0,0,0.4)", color: "#fff", fontSize: "1rem" }}>
+              ✕
+            </button>
+
+            <div className="p-8 flex flex-col gap-5">
+              {/* Title row */}
+              <div className="flex items-center gap-3">
+                <span style={{ fontSize: "2.2rem" }}>{selected.emoji}</span>
+                <h2 className="font-display font-medium"
+                  style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", color: "var(--t-l-1)" }}>
+                  {selected.dish}
+                </h2>
+              </div>
+
+              {/* Full description */}
+              <p className="leading-relaxed"
+                style={{ fontSize: "0.95rem", color: "var(--t-l-2)", fontWeight: 300, lineHeight: 1.75 }}>
+                {selected.description}
+              </p>
+
+              {/* Full recipe */}
+              {selected.recipe && (
+                <div className="pt-4 border-t" style={{ borderColor: "rgba(124,58,237,0.15)" }}>
+                  <p className="section-label mb-3" style={{ color: "var(--purple)" }}>Recipe</p>
+                  <p className="whitespace-pre-line leading-relaxed"
+                    style={{ fontSize: "0.9rem", color: "var(--t-l-2)", fontWeight: 300, lineHeight: 1.8 }}>
+                    {selected.recipe}
+                  </p>
+                </div>
+              )}
+
+              <button onClick={() => setSelected(null)}
+                className="self-center mt-2 section-label transition-opacity hover:opacity-60"
+                style={{ color: "var(--t-l-3)" }}>
+                ↑ Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
