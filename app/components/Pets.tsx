@@ -17,8 +17,8 @@ const SW   = 2.5;         // default stroke-width
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pets = (content as any).pets ?? {};
-const KIRI_MSG: string = pets.kiriMessage ?? "";
-const DORI_MSG: string = pets.doriMessage ?? "";
+const KIRI_MSGS: string[] = (pets.kiriMessages ?? []).filter(Boolean);
+const DORI_MSGS: string[] = (pets.doriMessages ?? []).filter(Boolean);
 
 function PetModal({ name, emoji, message, onClose }: {
   name: string; emoji: string; message: string; onClose: () => void;
@@ -86,18 +86,25 @@ function PetModal({ name, emoji, message, onClose }: {
 function PetWrap({
   children,
   style,
-  message,
+  messages,
   petName,
   petEmoji,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
-  message?: string;
+  messages?: string[];
   petName?: string;
   petEmoji?: string;
 }) {
   const [up, setUp] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [currentMsg, setCurrentMsg] = useState<string | null>(null);
+
+  function handleClick(e: React.MouseEvent) {
+    if (!messages?.length) return;
+    e.stopPropagation();
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    setCurrentMsg(msg);
+  }
 
   return (
     <>
@@ -105,7 +112,7 @@ function PetWrap({
         aria-hidden="true"
         onMouseEnter={() => setUp(true)}
         onMouseLeave={() => setUp(false)}
-        onClick={message ? (e) => { e.stopPropagation(); setOpen(true); } : undefined}
+        onClick={messages?.length ? handleClick : undefined}
         style={{
           display: "inline-block",
           cursor: "pointer",
@@ -118,12 +125,12 @@ function PetWrap({
         {children}
       </div>
 
-      {open && message && petName && petEmoji && (
+      {currentMsg && petName && petEmoji && (
         <PetModal
           name={petName}
           emoji={petEmoji}
-          message={message}
-          onClose={() => setOpen(false)}
+          message={currentMsg}
+          onClose={() => setCurrentMsg(null)}
         />
       )}
     </>
@@ -147,7 +154,7 @@ function Eyes({ lx, ly, rx, ry }: { lx:number; ly:number; rx:number; ry:number }
 ═══════════════════════════════════════ */
 export function SittingCat({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} message={KIRI_MSG || undefined} petName="Kiri" petEmoji="🐱">
+    <PetWrap style={style} messages={KIRI_MSGS} petName="Kiri" petEmoji="🐱">
       <svg width="68" height="92" viewBox="0 0 68 92" fill="none">
         {/* Left ear */}
         <polygon points="13,18 6,2 24,12" fill={CAT} stroke={INK} strokeWidth={SW} strokeLinejoin="round"/>
@@ -181,7 +188,7 @@ export function SittingCat({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function SittingDog({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} message={DORI_MSG || undefined} petName="Dori" petEmoji="🐶">
+    <PetWrap style={style} messages={DORI_MSGS} petName="Dori" petEmoji="🐶">
       <svg width="72" height="92" viewBox="0 0 72 92" fill="none">
         {/* Floppy ears (behind head) */}
         <ellipse cx="13" cy="38" rx="12" ry="10" fill={DOG2} stroke={INK} strokeWidth={SW} transform="rotate(-12,13,38)"/>
@@ -209,7 +216,7 @@ export function SittingDog({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function SleepingCat({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} message={KIRI_MSG || undefined} petName="Kiri" petEmoji="🐱">
+    <PetWrap style={style} messages={KIRI_MSGS} petName="Kiri" petEmoji="🐱">
       <svg width="92" height="62" viewBox="0 0 92 62" fill="none">
         {/* Tail wrapping around */}
         <path d="M14 46 Q4 38 8 26 Q12 16 20 24" stroke={CAT} strokeWidth={8} strokeLinecap="round"/>
@@ -239,7 +246,7 @@ export function SleepingCat({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function WavingDog({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} message={DORI_MSG || undefined} petName="Dori" petEmoji="🐶">
+    <PetWrap style={style} messages={DORI_MSGS} petName="Dori" petEmoji="🐶">
       <svg width="80" height="96" viewBox="0 0 80 96" fill="none">
         {/* Waving arm (raised right) */}
         <ellipse cx="70" cy="46" rx="9" ry="7" fill={DOG} stroke={INK} strokeWidth={SW} transform="rotate(-40,70,46)"/>
@@ -272,7 +279,7 @@ export function WavingDog({ style }: { style?: React.CSSProperties }) {
 ═══════════════════════════════════════ */
 export function PeekingCat({ style }: { style?: React.CSSProperties }) {
   return (
-    <PetWrap style={style} message={KIRI_MSG || undefined} petName="Kiri" petEmoji="🐱">
+    <PetWrap style={style} messages={KIRI_MSGS} petName="Kiri" petEmoji="🐱">
       {/* clip so only top half shows */}
       <svg width="68" height="38" viewBox="0 0 68 60" style={{ overflow: "hidden" }} fill="none">
         {/* Left ear */}

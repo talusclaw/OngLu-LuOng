@@ -8,7 +8,7 @@ type GreatestHit  = { id: number; dish: string; emoji: string; description: stri
 type GalleryItem  = { id: number; caption: string; url: string | null; focalX?: number; focalY?: number };
 type Message      = { author: string; message: string };
 type Letter       = { title: string; body: string };
-type Pets         = { kiriMessage: string; doriMessage: string };
+type Pets         = { kiriMessages: string[]; doriMessages: string[] };
 type Content = {
   family:       { name: string; tagline: string; anniversary: string; story: string };
   timeline:     TimelineItem[];
@@ -463,7 +463,14 @@ export default function AdminPage() {
   const removeMessage = (i: number) => upd((c) => ({ ...c, messages: c.messages.filter((_, j) => j !== i) }));
 
   const updateLetter = (k: keyof Letter, v: string) => upd((c) => ({ ...c, letter: { ...c.letter, [k]: v } }));
-  const updatePets = (k: keyof Pets, v: string) => upd((c) => ({ ...c, pets: { ...c.pets, [k]: v } }));
+  const updatePetsMsg = (k: keyof Pets, i: number, v: string) => upd((c) => {
+    const msgs = [...(c.pets?.[k] ?? [])]; msgs[i] = v; return { ...c, pets: { ...c.pets, [k]: msgs } };
+  });
+  const addPetsMsg = (k: keyof Pets) => upd((c) => ({ ...c, pets: { ...c.pets, [k]: [...(c.pets?.[k] ?? []), ""] } }));
+  const removePetsMsg = (k: keyof Pets, i: number) => upd((c) => {
+    const msgs = (c.pets?.[k] ?? []).filter((_, j) => j !== i);
+    return { ...c, pets: { ...c.pets, [k]: msgs.length ? msgs : [""] } };
+  });
 
   return (
     <div className="min-h-screen flex" style={{ background: "#F5F3FF", fontFamily: "var(--font-inter)" }}>
@@ -679,13 +686,63 @@ export default function AdminPage() {
           {!loading && content && section === "pets" && (
             <div className="flex flex-col gap-5">
               <div className="rounded-xl border px-5 py-4 text-sm" style={{ background: "#EDE9FE", borderColor: B, color: "#4C1D95" }}>
-                🐾 These messages pop up when visitors click on <strong>Kiri</strong> or <strong>Dori</strong> anywhere on the site. Leave blank to disable.
+                🐾 Each click picks a <strong>random</strong> message from the list. Add as many as you like — blank messages are ignored.
               </div>
-              <Card title="🐱 Kiri's Message">
-                <Field label="Message" value={content.pets?.kiriMessage ?? ""} onChange={(v) => updatePets("kiriMessage", v)} multiline rows={5} placeholder="meow~ something sweet from Kiri…" />
+
+              {/* Kiri */}
+              <Card title="🐱 Kiri's Messages">
+                <div className="flex flex-col gap-3">
+                  {(content.pets?.kiriMessages ?? [""]).map((msg, i) => (
+                    <div key={i} className="flex gap-2 items-start">
+                      <div className="flex-1">
+                        <Field
+                          label={`Message ${i + 1}`}
+                          value={msg}
+                          onChange={(v) => updatePetsMsg("kiriMessages", i, v)}
+                          multiline rows={3}
+                          placeholder="meow~ something sweet from Kiri…"
+                        />
+                      </div>
+                      {(content.pets?.kiriMessages?.length ?? 1) > 1 && (
+                        <button
+                          onClick={() => removePetsMsg("kiriMessages", i)}
+                          className="mt-6 text-xs px-2.5 py-1.5 rounded-lg transition-opacity hover:opacity-70 shrink-0"
+                          style={{ background: "#FEE2E2", color: "#991B1B" }}>
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <AddButton onClick={() => addPetsMsg("kiriMessages")} label="Add Message" color={P} />
               </Card>
-              <Card title="🐶 Dori's Message">
-                <Field label="Message" value={content.pets?.doriMessage ?? ""} onChange={(v) => updatePets("doriMessage", v)} multiline rows={5} placeholder="woof! something sweet from Dori…" />
+
+              {/* Dori */}
+              <Card title="🐶 Dori's Messages">
+                <div className="flex flex-col gap-3">
+                  {(content.pets?.doriMessages ?? [""]).map((msg, i) => (
+                    <div key={i} className="flex gap-2 items-start">
+                      <div className="flex-1">
+                        <Field
+                          label={`Message ${i + 1}`}
+                          value={msg}
+                          onChange={(v) => updatePetsMsg("doriMessages", i, v)}
+                          multiline rows={3}
+                          placeholder="woof! something sweet from Dori…"
+                        />
+                      </div>
+                      {(content.pets?.doriMessages?.length ?? 1) > 1 && (
+                        <button
+                          onClick={() => removePetsMsg("doriMessages", i)}
+                          className="mt-6 text-xs px-2.5 py-1.5 rounded-lg transition-opacity hover:opacity-70 shrink-0"
+                          style={{ background: "#FEE2E2", color: "#991B1B" }}>
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <AddButton onClick={() => addPetsMsg("doriMessages")} label="Add Message" color={G} />
               </Card>
             </div>
           )}
