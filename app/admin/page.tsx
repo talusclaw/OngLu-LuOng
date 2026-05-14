@@ -7,15 +7,17 @@ type TimelineItem = { id: number; date: string; emoji: string; title: string; de
 type GreatestHit  = { id: number; dish: string; emoji: string; description: string; recipe: string; photos: string[]; coverPhoto: string | null };
 type GalleryItem  = { id: number; caption: string; url: string | null; focalX?: number; focalY?: number };
 type Message      = { author: string; message: string };
+type Letter       = { title: string; body: string };
 type Content = {
   family:       { name: string; tagline: string; anniversary: string; story: string };
   timeline:     TimelineItem[];
   greatestHits: GreatestHit[];
   gallery:      GalleryItem[];
   messages:     Message[];
+  letter:       Letter;
 };
 
-type Section = "family" | "timeline" | "hits" | "gallery" | "messages";
+type Section = "family" | "timeline" | "hits" | "gallery" | "messages" | "letter";
 
 const NAV: { id: Section; label: string; emoji: string }[] = [
   { id: "family",   label: "Family Info",   emoji: "🏡" },
@@ -23,13 +25,14 @@ const NAV: { id: Section; label: string; emoji: string }[] = [
   { id: "hits",     label: "Greatest Hits",  emoji: "🍽️" },
   { id: "gallery",  label: "Gallery",        emoji: "🖼️" },
   { id: "messages", label: "Messages",       emoji: "💬" },
+  { id: "letter",   label: "Hidden Letter",  emoji: "💌" },
 ];
 
 const P = "#7C3AED", G = "#059669", D = "#1E1B4B", B = "#DDD6FE", BG = "#FEFCFF";
 
-function Field({ label, value, onChange, multiline = false, placeholder = "" }: {
+function Field({ label, value, onChange, multiline = false, placeholder = "", rows = 3 }: {
   label: string; value: string; onChange: (v: string) => void;
-  multiline?: boolean; placeholder?: string;
+  multiline?: boolean; placeholder?: string; rows?: number;
 }) {
   const base: React.CSSProperties = {
     width: "100%", padding: "10px 14px", borderRadius: 8,
@@ -44,7 +47,7 @@ function Field({ label, value, onChange, multiline = false, placeholder = "" }: 
       </label>
       {multiline
         ? <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
-            rows={3} style={base}
+            rows={rows} style={base}
             onFocus={(e) => (e.target.style.borderColor = P)}
             onBlur={(e)  => (e.target.style.borderColor = B)} />
         : <input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
@@ -456,6 +459,8 @@ export default function AdminPage() {
   const addMessage = () => upd((c) => ({ ...c, messages: [...c.messages, { author: "", message: "" }] }));
   const removeMessage = (i: number) => upd((c) => ({ ...c, messages: c.messages.filter((_, j) => j !== i) }));
 
+  const updateLetter = (k: keyof Letter, v: string) => upd((c) => ({ ...c, letter: { ...c.letter, [k]: v } }));
+
   return (
     <div className="min-h-screen flex" style={{ background: "#F5F3FF", fontFamily: "var(--font-inter)" }}>
       {/* Sidebar */}
@@ -663,6 +668,19 @@ export default function AdminPage() {
                 </Card>
               ))}
               <AddButton onClick={addMessage} label="Add Message" color={G} />
+            </div>
+          )}
+
+          {/* ── Hidden Letter ── */}
+          {!loading && content && section === "letter" && (
+            <div className="flex flex-col gap-5">
+              <div className="rounded-xl border px-5 py-4 text-sm" style={{ background: "#EDE9FE", borderColor: B, color: "#4C1D95" }}>
+                💌 This letter appears when visitors click on <strong>Kiri & Dori</strong> in the footer. It&apos;s a hidden surprise.
+              </div>
+              <Card title="Hidden Letter">
+                <Field label="Title" value={content.letter?.title ?? "Dear Helena"} onChange={(v) => updateLetter("title", v)} placeholder="Dear Helena" />
+                <Field label="Letter Body" value={content.letter?.body ?? ""} onChange={(v) => updateLetter("body", v)} multiline rows={14} placeholder="Write your letter here…" />
+              </Card>
             </div>
           )}
         </div>
