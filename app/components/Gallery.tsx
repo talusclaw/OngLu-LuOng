@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import content from "@/data/content.json";
+import { SittingDog } from "@/app/components/Pets";
 
 type GalleryItem = { id: number; caption: string; url?: string | null; focalX?: number; focalY?: number };
 
@@ -86,9 +87,13 @@ export default function Gallery() {
 
         {/* Footer row: count + view all */}
         <div className="mt-6 flex items-center justify-between">
-          <p className="section-label" style={{ color: "var(--t-d-3)" }}>
-            6 of {gallery.length} · refreshes each visit
-          </p>
+          <div className="flex items-end gap-3">
+            <p className="section-label" style={{ color: "var(--t-d-3)" }}>
+              6 of {gallery.length} · refreshes each visit
+            </p>
+            {/* Easter egg — little dog */}
+            <SittingDog style={{ opacity: 0.85, marginBottom: -8 }} />
+          </div>
           <button
             onClick={() => setOpen(true)}
             className="flex items-center gap-2 px-5 py-2.5 rounded-full transition-all hover:opacity-80"

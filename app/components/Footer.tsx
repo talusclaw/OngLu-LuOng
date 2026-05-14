@@ -1,3 +1,5 @@
+import { PetsDuo } from "@/app/components/Pets";
+
 export default function Footer() {
   return (
     <footer className="py-16 px-6 text-center relative overflow-hidden"
@@ -13,6 +15,11 @@ export default function Footer() {
         }} />
 
       <div className="relative z-10">
+        {/* Easter egg — cat & dog sitting together */}
+        <div className="flex justify-center mb-4">
+          <PetsDuo style={{ opacity: 0.9 }} />
+        </div>
+
         {/* Name */}
         <p className="font-display font-light"
           style={{ fontSize: "clamp(1.6rem, 4vw, 2.2rem)", color: "var(--t-d-1)", letterSpacing: "0.02em" }}>
