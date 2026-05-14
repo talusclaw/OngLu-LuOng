@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import content from "@/data/content.json";
+import { SittingCat } from "@/app/components/Pets";
 
 type Hit = {
   id: number;
@@ -49,10 +50,13 @@ export default function GreatestHits() {
             <div className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--green)" }} />
             <div className="h-px w-20" style={{ background: "linear-gradient(90deg, rgba(16,185,129,0.4), transparent)" }} />
           </div>
-          <p className="mt-6 font-display font-light italic"
-            style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "var(--t-l-2)" }}>
-            Every great meal is a memory in the making.
-          </p>
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <p className="font-display font-light italic"
+              style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "var(--t-l-2)" }}>
+              Every great meal is a memory in the making.
+            </p>
+            <SittingCat style={{ opacity: 0.85, flexShrink: 0 }} />
+          </div>
         </div>
 
         {/* Grid */}

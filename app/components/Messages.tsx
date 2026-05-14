@@ -1,4 +1,7 @@
+"use client";
+
 import content from "@/data/content.json";
+import { WavingDog } from "@/app/components/Pets";
 
 export default function Messages() {
   const { messages } = content;
@@ -24,6 +27,11 @@ export default function Messages() {
             <div className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--green)" }} />
             <div className="h-px w-20" style={{ background: "linear-gradient(90deg, rgba(16,185,129,0.4), transparent)" }} />
           </div>
+        </div>
+
+        {/* Easter egg — waving dog */}
+        <div className="flex justify-end mb-2 -mt-8">
+          <WavingDog style={{ opacity: 0.8 }} />
         </div>
 
         {/* Cards */}

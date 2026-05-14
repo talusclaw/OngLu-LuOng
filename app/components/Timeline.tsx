@@ -1,4 +1,7 @@
+"use client";
+
 import content from "@/data/content.json";
+import { PeekingCat } from "@/app/components/Pets";
 
 type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
 
@@ -107,9 +110,10 @@ export default function Timeline() {
         </div>
 
         {/* Scroll hint */}
-        <p className="text-center mt-8 section-label" style={{ color: "var(--t-d-3)" }}>
-          Scroll to explore →
-        </p>
+        <div className="flex items-center justify-center gap-3 mt-8">
+          <PeekingCat style={{ opacity: 0.8 }} />
+          <p className="section-label" style={{ color: "var(--t-d-3)" }}>Scroll to explore →</p>
+        </div>
 
       </div>
     </section>
