@@ -516,22 +516,24 @@
     },
     {
       "id": 63,
-      "caption": "IMG 7634",
-      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778767773400-IMG_7634.jpeg"
+      "caption": "beauty ",
+      "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778767773400-IMG_7634.jpeg",
+      "focalX": 51,
+      "focalY": 20
     },
     {
       "id": 64,
-      "caption": "lp image",
+      "caption": "my girls ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778767764296-lp_image.jpeg"
     },
     {
       "id": 65,
-      "caption": "IMG 7316",
+      "caption": "in my arms ",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778767773488-IMG_7316.jpeg"
     },
     {
       "id": 66,
-      "caption": "IMG 3596",
+      "caption": "Smooch!",
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778767774223-IMG_3596.jpeg"
     }
   ],
