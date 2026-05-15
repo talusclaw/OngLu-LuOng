@@ -1,10 +1,31 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import content from "@/data/content.json";
 import { WavingDog } from "@/app/components/Pets";
 
+function pickRandom<T>(arr: T[], n: number): T[] {
+  return [...arr].sort(() => Math.random() - 0.5).slice(0, Math.min(n, arr.length));
+}
+
 export default function Messages() {
   const { messages } = content;
+  const showCount = Math.min(3, messages.length);
+
+  const [shown, setShown] = useState(() => pickRandom(messages, showCount));
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    if (messages.length <= 3) return;
+    const id = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setShown(pickRandom(messages, showCount));
+        setFading(false);
+      }, 350);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [messages, showCount]);
 
   return (
     <section id="messages" className="py-28 px-6"
@@ -39,9 +60,11 @@ export default function Messages() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {messages.map((msg, i) => (
-            <div key={i} className="glass-light rounded-2xl p-7 flex flex-col gap-4 relative overflow-hidden">
+        <div
+          className="grid md:grid-cols-3 gap-6"
+          style={{ transition: "opacity 0.35s ease", opacity: fading ? 0 : 1 }}>
+          {shown.map((msg, i) => (
+            <div key={`${msg.author}-${i}`} className="glass-light rounded-2xl p-7 flex flex-col gap-4 relative overflow-hidden">
               {/* Decorative orb */}
               <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full pointer-events-none"
                 style={{
@@ -70,7 +93,7 @@ export default function Messages() {
                 {msg.message}
               </p>
 
-              {/* Author */}
+              {/* Author — blurred until hover */}
               <div className="flex items-center gap-3 pt-2">
                 <div className="gradient-rule flex-1" />
                 <span
@@ -82,6 +105,13 @@ export default function Messages() {
             </div>
           ))}
         </div>
+
+        {/* Count label */}
+        {messages.length > 3 && (
+          <p className="text-center mt-6 section-label" style={{ color: "var(--t-l-3)" }}>
+            {showCount} of {messages.length} · cycles automatically
+          </p>
+        )}
 
       </div>
     </section>
