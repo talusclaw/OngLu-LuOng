@@ -1,31 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import content from "@/data/content.json";
 import { WavingDog } from "@/app/components/Pets";
 
-function pickRandom<T>(arr: T[], n: number): T[] {
-  return [...arr].sort(() => Math.random() - 0.5).slice(0, Math.min(n, arr.length));
-}
-
 export default function Messages() {
   const { messages } = content;
-  const showCount = Math.min(3, messages.length);
 
-  const [shown, setShown] = useState(() => pickRandom(messages, showCount));
+  // Shuffle once on page load, then paginate in groups of 3
+  const [shuffled] = useState(() => [...messages].sort(() => Math.random() - 0.5));
+  const pages = Math.ceil(shuffled.length / 3);
+  const [page, setPage] = useState(0);
   const [fading, setFading] = useState(false);
 
-  useEffect(() => {
-    if (messages.length <= 3) return;
-    const id = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setShown(pickRandom(messages, showCount));
-        setFading(false);
-      }, 350);
-    }, 5000);
-    return () => clearInterval(id);
-  }, [messages, showCount]);
+  function navigate(dir: 1 | -1) {
+    if (pages <= 1) return;
+    setFading(true);
+    setTimeout(() => {
+      setPage((p) => (p + dir + pages) % pages);
+      setFading(false);
+    }, 280);
+  }
+
+  const shown = shuffled.slice(page * 3, page * 3 + 3);
 
   return (
     <section id="messages" className="py-28 px-6"
@@ -62,9 +59,9 @@ export default function Messages() {
         {/* Cards */}
         <div
           className="grid md:grid-cols-3 gap-6"
-          style={{ transition: "opacity 0.35s ease", opacity: fading ? 0 : 1 }}>
+          style={{ transition: "opacity 0.28s ease", opacity: fading ? 0 : 1 }}>
           {shown.map((msg, i) => (
-            <div key={`${msg.author}-${i}`} className="glass-light rounded-2xl p-7 flex flex-col gap-4 relative overflow-hidden">
+            <div key={`${msg.author}-${page}-${i}`} className="glass-light rounded-2xl p-7 flex flex-col gap-4 relative overflow-hidden">
               {/* Decorative orb */}
               <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full pointer-events-none"
                 style={{
@@ -76,12 +73,9 @@ export default function Messages() {
               {/* Quote mark */}
               <p className="font-display leading-none select-none"
                 style={{
-                  fontSize: "4rem",
-                  lineHeight: 1,
+                  fontSize: "4rem", lineHeight: 1,
                   background: "linear-gradient(135deg, #7C3AED, #10B981)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
                   opacity: 0.8,
                 }}>
                 &ldquo;
@@ -106,11 +100,53 @@ export default function Messages() {
           ))}
         </div>
 
-        {/* Count label */}
-        {messages.length > 3 && (
-          <p className="text-center mt-6 section-label" style={{ color: "var(--t-l-3)" }}>
-            {showCount} of {messages.length} · cycles automatically
-          </p>
+        {/* Navigation */}
+        {pages > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-5">
+            {/* Prev */}
+            <button
+              onClick={() => navigate(-1)}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:opacity-70 active:scale-95"
+              style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", color: "#A78BFA" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            {/* Page dots */}
+            <div className="flex items-center gap-2">
+              {Array.from({ length: pages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    if (i === page) return;
+                    setFading(true);
+                    setTimeout(() => { setPage(i); setFading(false); }, 280);
+                  }}
+                  style={{
+                    width: i === page ? 20 : 7,
+                    height: 7,
+                    borderRadius: 4,
+                    background: i === page ? "var(--purple)" : "rgba(124,58,237,0.25)",
+                    transition: "all 0.3s ease",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Next */}
+            <button
+              onClick={() => navigate(1)}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:opacity-70 active:scale-95"
+              style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", color: "#A78BFA" }}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M5 2l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         )}
 
       </div>
