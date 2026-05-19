@@ -125,6 +125,14 @@
       "title": "Sisters in NYC ",
       "description": "so good with my family ",
       "photo": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778281813049-IMG_7656.jpeg"
+    },
+    {
+      "id": 16,
+      "date": "May 16, 2026 ",
+      "emoji": "🎂",
+      "title": "Pre-Anniversary ",
+      "description": "Ethiopian food and where the lady said we were literally the hottest people alive ",
+      "photo": null
     }
   ],
   "greatestHits": [
@@ -542,16 +550,6 @@
       "url": "https://ih5qkekrs7tghttv.public.blob.vercel-storage.com/gallery/1778771690931-EA26B3AB-69F8-4DD1-8BB9-D064B3932BAB.jpg",
       "focalX": 46,
       "focalY": 1
-    },
-    {
-      "id": 68,
-      "caption": "Blue dresssss ",
-      "url": null
-    },
-    {
-      "id": 69,
-      "caption": "the cutest ",
-      "url": null
     }
   ],
   "messages": [
