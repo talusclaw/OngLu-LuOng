@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { cookies } from "next/headers";
 
 async function isAuthenticated(): Promise<boolean> {
@@ -18,20 +18,31 @@ async function isAuthenticated(): Promise<boolean> {
   return token === expected;
 }
 
-export async function POST(request: Request) {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+export async function POST(request: Request): Promise<Response> {
+  const body = (await request.json()) as HandleUploadBody;
+
+  // Gate token-generation requests behind auth — cookie is available on these calls
+  if (body.type === "blob.generate-client-token") {
+    if (!(await isAuthenticated())) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   }
 
-  const form = await request.formData();
-  const file = form.get("file") as File | null;
-
-  if (!file) {
-    return NextResponse.json({ error: "No file provided" }, { status: 400 });
+  try {
+    const jsonResponse = await handleUpload({
+      body,
+      request,
+      onBeforeGenerateToken: async () => ({
+        allowedContentTypes: [
+          "image/jpeg", "image/jpg", "image/png",
+          "image/gif", "image/webp", "image/heic", "image/heif",
+        ],
+        maximumSizeInBytes: 50 * 1024 * 1024, // 50 MB — handles full-res iPhone photos
+      }),
+      onUploadCompleted: async () => {},
+    });
+    return NextResponse.json(jsonResponse);
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
-
-  const filename = `gallery/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-  const blob = await put(filename, file, { access: "public" });
-
-  return NextResponse.json({ url: blob.url });
 }

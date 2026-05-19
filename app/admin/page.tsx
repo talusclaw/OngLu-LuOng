@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
 
 type TimelineItem = { id: number; date: string; emoji: string; title: string; description: string; photo?: string | null };
 type GreatestHit  = { id: number; dish: string; emoji: string; description: string; recipe: string; photos: string[]; coverPhoto: string | null };
@@ -290,12 +291,13 @@ export default function AdminPage() {
   }
 
   async function handlePhotoUpload(index: number, file: File) {
-    const form = new FormData();
-    form.append("file", file);
     try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      if (!res.ok) throw new Error();
-      const { url } = await res.json();
+      const blob = await upload(
+        `gallery/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`,
+        file,
+        { access: "public", handleUploadUrl: "/api/admin/upload" }
+      );
+      const url = blob.url;
       setContent((c) => {
         if (!c) return c;
         const gallery = [...c.gallery];
@@ -307,16 +309,17 @@ export default function AdminPage() {
         }, 0);
         return updated;
       });
-    } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
+    } catch { setStatus({ type: "error", msg: "Photo upload failed. Check that BLOB_READ_WRITE_TOKEN is set in Vercel." }); }
   }
 
   async function handleTimelinePhotoUpload(index: number, file: File) {
-    const form = new FormData();
-    form.append("file", file);
     try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      if (!res.ok) throw new Error();
-      const { url } = await res.json();
+      const blob = await upload(
+        `timeline/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`,
+        file,
+        { access: "public", handleUploadUrl: "/api/admin/upload" }
+      );
+      const url = blob.url;
       setContent((c) => {
         if (!c) return c;
         const timeline = [...c.timeline];
@@ -328,19 +331,19 @@ export default function AdminPage() {
         }, 0);
         return updated;
       });
-    } catch { setStatus({ type: "error", msg: "Photo upload failed. Is BLOB_READ_WRITE_TOKEN set?" }); }
+    } catch { setStatus({ type: "error", msg: "Photo upload failed. Check that BLOB_READ_WRITE_TOKEN is set in Vercel." }); }
   }
 
   async function handleHitMultiPhotoUpload(dishIdx: number, files: FileList) {
     const fileArray = Array.from(files);
     const results = await Promise.allSettled(
       fileArray.map(async (file) => {
-        const form = new FormData();
-        form.append("file", file);
-        const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-        if (!res.ok) throw new Error();
-        const { url } = await res.json();
-        return url as string;
+        const blob = await upload(
+          `hits/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`,
+          file,
+          { access: "public", handleUploadUrl: "/api/admin/upload" }
+        );
+        return blob.url;
       })
     );
     const urls = results
@@ -376,12 +379,12 @@ export default function AdminPage() {
     setContent((c) => c ? { ...c, gallery: [...c.gallery, ...newItems] } : c);
     const results = await Promise.allSettled(
       fileArray.map(async (file, i) => {
-        const form = new FormData();
-        form.append("file", file);
-        const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-        if (!res.ok) throw new Error();
-        const { url } = await res.json();
-        return { id: newItems[i].id, url: url as string };
+        const blob = await upload(
+          `gallery/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`,
+          file,
+          { access: "public", handleUploadUrl: "/api/admin/upload" }
+        );
+        return { id: newItems[i].id, url: blob.url };
       })
     );
     const urlMap = new Map(
