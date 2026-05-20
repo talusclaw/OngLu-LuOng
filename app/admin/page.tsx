@@ -767,15 +767,18 @@ export default function AdminPage() {
                     onDelete={() => removePhoto(i)} />
                 ))}
               </div>
-              <label className="flex items-center justify-center gap-2 py-4 rounded-2xl border-2 border-dashed text-base transition-opacity hover:opacity-70 w-full cursor-pointer"
-                style={{ borderColor: P, color: P, fontFamily: "var(--font-inter)" }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-                </svg>
-                Add Photos / Videos
-                <input type="file" accept="image/*,video/*" multiple className="hidden"
-                  onChange={(e) => { if (e.target.files?.length) handleMultiPhotoUpload(e.target.files); e.target.value = ""; }} />
-              </label>
+              <div className="flex flex-col gap-3">
+                <label className="flex items-center justify-center gap-2 py-4 rounded-2xl border-2 border-dashed text-base transition-opacity hover:opacity-70 w-full cursor-pointer"
+                  style={{ borderColor: P, color: P, fontFamily: "var(--font-inter)" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+                  </svg>
+                  Add Photos / Videos
+                  <input type="file" accept="image/*,video/*" multiple className="hidden"
+                    onChange={(e) => { if (e.target.files?.length) handleMultiPhotoUpload(e.target.files); e.target.value = ""; }} />
+                </label>
+                <AddButton onClick={addPhoto} label="Add by Link (TikTok / YouTube)" color={G} />
+              </div>
             </div>
           )}
 
