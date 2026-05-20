@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import content from "@/data/content.json";
 import { SittingCat } from "@/app/components/Pets";
 
+function isVideo(url: string | null | undefined) {
+  return !!url && /\.(mp4|mov|webm|avi|m4v|mkv)(\?|$)/i.test(url);
+}
+
 type Hit = {
   id: number;
   dish: string;
@@ -70,8 +74,11 @@ export default function GreatestHits() {
                 {/* Cover photo — click to expand */}
                 {cover ? (
                   <div className="relative cursor-pointer group" onClick={() => setSelected(hit)}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={cover} alt={hit.dish} className="w-full object-cover" style={{ height: 160 }} />
+                    {isVideo(cover)
+                      ? <video src={cover} className="w-full object-cover" style={{ height: 160 }} muted playsInline loop autoPlay />
+                      // eslint-disable-next-line @next/next/no-img-element
+                      : <img src={cover} alt={hit.dish} className="w-full object-cover" style={{ height: 160 }} />
+                    }
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                       style={{ background: "rgba(16,12,36,0.5)" }}>
                       <span className="section-label" style={{ color: "#fff", letterSpacing: "0.1em" }}>View Recipe →</span>
@@ -137,15 +144,12 @@ export default function GreatestHits() {
             style={{ maxWidth: 520, maxHeight: "85vh", background: "var(--bg-light)", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
             onClick={(e) => e.stopPropagation()}>
 
-            {/* Photo */}
+            {/* Photo / Video */}
             {(selected.coverPhoto || selected.photos?.[0]) && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={selected.coverPhoto || selected.photos?.[0]}
-                alt={selected.dish}
-                className="w-full object-cover"
-                style={{ height: 240 }}
-              />
+              isVideo(selected.coverPhoto || selected.photos?.[0])
+                ? <video src={selected.coverPhoto || selected.photos?.[0]!} className="w-full object-cover" style={{ height: 240 }} muted playsInline controls />
+                // eslint-disable-next-line @next/next/no-img-element
+                : <img src={selected.coverPhoto || selected.photos?.[0]} alt={selected.dish} className="w-full object-cover" style={{ height: 240 }} />
             )}
 
             {/* Close button */}

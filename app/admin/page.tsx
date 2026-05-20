@@ -34,6 +34,10 @@ const NAV: { id: Section; label: string; emoji: string }[] = [
 
 const P = "#7C3AED", G = "#059669", D = "#1E1B4B", B = "#DDD6FE", BG = "#FEFCFF";
 
+function isVideo(url: string | null | undefined) {
+  return !!url && /\.(mp4|mov|webm|avi|m4v|mkv)(\?|$)/i.test(url);
+}
+
 function Field({ label, value, onChange, multiline = false, placeholder = "", rows = 3 }: {
   label: string; value: string; onChange: (v: string) => void;
   multiline?: boolean; placeholder?: string; rows?: number;
@@ -136,31 +140,36 @@ function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDe
 
   return (
     <div className="rounded-2xl border overflow-hidden" style={{ background: BG, borderColor: B }}>
-      {/* Image area: click to set focal point */}
+      {/* Preview area — videos replace focal-point click with replace-file click */}
       <div className="relative w-full h-44 cursor-crosshair" style={{ background: "#EDE9FE" }}
-        onClick={item.url ? handleFocalClick : () => inputRef.current?.click()}>
+        onClick={item.url && !isVideo(item.url) ? handleFocalClick : () => inputRef.current?.click()}>
         {item.url ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item.url} alt={item.caption} className="w-full h-full object-cover"
-              style={{ objectPosition: `${focalX}% ${focalY}%` }} />
-            {/* Focal point crosshair */}
-            <div style={{
-              position: "absolute",
-              left: `${focalX}%`, top: `${focalY}%`,
-              transform: "translate(-50%, -50%)",
-              width: 22, height: 22,
-              borderRadius: "50%",
-              border: "2.5px solid #fff",
-              boxShadow: "0 0 0 1.5px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(0,0,0,0.2)",
-              pointerEvents: "none",
-            }} />
-            <div className="absolute bottom-1.5 inset-x-0 flex justify-center pointer-events-none">
-              <span style={{ background: "rgba(0,0,0,0.5)", color: "#fff", fontSize: "0.65rem",
-                padding: "2px 7px", borderRadius: 4, fontFamily: "var(--font-inter)", letterSpacing: "0.03em" }}>
-                Click to move focus point
-              </span>
-            </div>
+            {isVideo(item.url) ? (
+              <video src={item.url} className="w-full h-full object-cover" muted playsInline loop autoPlay />
+            ) : (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={item.url} alt={item.caption} className="w-full h-full object-cover"
+                  style={{ objectPosition: `${focalX}% ${focalY}%` }} />
+                <div style={{
+                  position: "absolute",
+                  left: `${focalX}%`, top: `${focalY}%`,
+                  transform: "translate(-50%, -50%)",
+                  width: 22, height: 22,
+                  borderRadius: "50%",
+                  border: "2.5px solid #fff",
+                  boxShadow: "0 0 0 1.5px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(0,0,0,0.2)",
+                  pointerEvents: "none",
+                }} />
+                <div className="absolute bottom-1.5 inset-x-0 flex justify-center pointer-events-none">
+                  <span style={{ background: "rgba(0,0,0,0.5)", color: "#fff", fontSize: "0.65rem",
+                    padding: "2px 7px", borderRadius: 4, fontFamily: "var(--font-inter)", letterSpacing: "0.03em" }}>
+                    Click to move focus point
+                  </span>
+                </div>
+              </>
+            )}
           </>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-2">
@@ -172,21 +181,21 @@ function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDe
             </p>
           </div>
         )}
-        <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+        <input ref={inputRef} type="file" accept="image/*,video/*" className="hidden" onChange={handleFile} />
       </div>
       <div className="p-4 flex flex-col gap-3">
-        <Field label={`Photo ${index + 1} Caption`} value={item.caption} onChange={onCaptionChange} placeholder="A wonderful moment…" />
+        <Field label={`Item ${index + 1} Caption`} value={item.caption} onChange={onCaptionChange} placeholder="A wonderful moment…" />
         <div className="flex items-center gap-2">
           {item.url && (
             <button onClick={() => inputRef.current?.click()}
               className="text-xs px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
               style={{ background: "#EDE9FE", color: P, fontFamily: "var(--font-inter)" }}>
-              Replace photo
+              Replace
             </button>
           )}
           <button onClick={onDelete} className="text-xs px-3 py-1.5 rounded-lg transition-opacity hover:opacity-70"
             style={{ background: "#FEE2E2", color: "#991B1B", fontFamily: "var(--font-inter)" }}>
-            Remove photo
+            Remove
           </button>
         </div>
       </div>
@@ -214,35 +223,38 @@ function PhotoUpload({ photo, onUpload, onRemove }: {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>
-        Photo (optional)
+        Photo / Video (optional)
       </label>
       <div
         className="relative w-full rounded-xl overflow-hidden cursor-pointer group"
         style={{ height: 140, background: "#EDE9FE", border: `1.5px dashed ${B}` }}
         onClick={() => inputRef.current?.click()}>
-        {photo
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={photo} alt="Event photo" className="w-full h-full object-cover" />
-          : <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={P} strokeWidth="1.5">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="text-sm" style={{ color: P, fontFamily: "var(--font-inter)" }}>
-                {uploading ? "Uploading…" : "Click to add photo"}
-              </p>
-            </div>
-        }
+        {photo ? (
+          isVideo(photo)
+            ? <video src={photo} className="w-full h-full object-cover" muted playsInline loop autoPlay />
+            // eslint-disable-next-line @next/next/no-img-element
+            : <img src={photo} alt="Event photo" className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={P} strokeWidth="1.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-sm" style={{ color: P, fontFamily: "var(--font-inter)" }}>
+              {uploading ? "Uploading…" : "Click to add photo or video"}
+            </p>
+          </div>
+        )}
         {photo && (
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <p className="text-white text-sm">{uploading ? "Uploading…" : "Click to replace"}</p>
           </div>
         )}
-        <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+        <input ref={inputRef} type="file" accept="image/*,video/*" className="hidden" onChange={handleFile} />
       </div>
       {photo && (
         <button onClick={onRemove} className="text-xs px-3 py-1 rounded-lg self-start transition-opacity hover:opacity-70"
           style={{ background: "#FEE2E2", color: "#991B1B", fontFamily: "var(--font-inter)" }}>
-          Remove photo
+          Remove
         </button>
       )}
     </div>
@@ -608,8 +620,11 @@ export default function AdminPage() {
                             <div key={url} className="relative rounded-xl overflow-hidden cursor-pointer"
                               style={{ aspectRatio: "1", border: isCover ? `2px solid ${P}` : "2px solid transparent" }}
                               onClick={() => setHitCover(i, url)}>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={url} alt="" className="w-full h-full object-cover" />
+                              {isVideo(url)
+                                ? <video src={url} className="w-full h-full object-cover" muted playsInline loop autoPlay />
+                                // eslint-disable-next-line @next/next/no-img-element
+                                : <img src={url} alt="" className="w-full h-full object-cover" />
+                              }
                               {isCover && (
                                 <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-xs font-medium"
                                   style={{ background: P, color: "#fff", fontFamily: "var(--font-inter)" }}>
@@ -634,8 +649,8 @@ export default function AdminPage() {
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M12 5v14M5 12h14" strokeLinecap="round" />
                       </svg>
-                      Add Photos
-                      <input type="file" accept="image/*" multiple className="hidden"
+                      Add Photos / Videos
+                      <input type="file" accept="image/*,video/*" multiple className="hidden"
                         onChange={(e) => { if (e.target.files?.length) handleHitMultiPhotoUpload(i, e.target.files); e.target.value = ""; }} />
                     </label>
                   </div>
@@ -665,8 +680,8 @@ export default function AdminPage() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 5v14M5 12h14" strokeLinecap="round" />
                 </svg>
-                Add Photos
-                <input type="file" accept="image/*" multiple className="hidden"
+                Add Photos / Videos
+                <input type="file" accept="image/*,video/*" multiple className="hidden"
                   onChange={(e) => { if (e.target.files?.length) handleMultiPhotoUpload(e.target.files); e.target.value = ""; }} />
               </label>
             </div>

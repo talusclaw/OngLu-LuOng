@@ -6,6 +6,10 @@ import { SittingDog } from "@/app/components/Pets";
 
 type GalleryItem = { id: number; caption: string; url?: string | null; focalX?: number; focalY?: number };
 
+function isVideo(url: string | null | undefined) {
+  return !!url && /\.(mp4|mov|webm|avi|m4v|mkv)(\?|$)/i.test(url);
+}
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -68,13 +72,16 @@ export default function Gallery() {
               className="group relative overflow-hidden rounded-2xl cursor-pointer"
               style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
               onClick={() => setOpen(true)}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
-                alt={preview[idx].caption}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                style={{ objectPosition: `${preview[idx].focalX ?? 50}% ${preview[idx].focalY ?? 50}%` }}
-              />
+              {isVideo(preview[idx].url)
+                ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
+                // eslint-disable-next-line @next/next/no-img-element
+                : <img
+                    src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
+                    alt={preview[idx].caption}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{ objectPosition: `${preview[idx].focalX ?? 50}% ${preview[idx].focalY ?? 50}%` }}
+                  />
+              }
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
                 style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
                 <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.92)" }}>
@@ -153,13 +160,16 @@ export default function Gallery() {
                 <div key={item.id}
                   className="group relative overflow-hidden rounded-xl"
                   style={{ aspectRatio: "1 / 1", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.url || `https://picsum.photos/seed/${item.id * 10}/400/400`}
-                    alt={item.caption}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
-                  />
+                  {isVideo(item.url)
+                    ? <video src={item.url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
+                    // eslint-disable-next-line @next/next/no-img-element
+                    : <img
+                        src={item.url || `https://picsum.photos/seed/${item.id * 10}/400/400`}
+                        alt={item.caption}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
+                      />
+                  }
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
                     style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
                     <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.9)", fontSize: "0.85rem" }}>

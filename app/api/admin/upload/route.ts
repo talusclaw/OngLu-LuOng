@@ -36,8 +36,10 @@ export async function POST(request: Request): Promise<Response> {
         allowedContentTypes: [
           "image/jpeg", "image/jpg", "image/png",
           "image/gif", "image/webp", "image/heic", "image/heif",
+          "video/mp4", "video/quicktime", "video/webm",
+          "video/avi", "video/x-msvideo", "video/x-m4v",
         ],
-        maximumSizeInBytes: 50 * 1024 * 1024, // 50 MB — handles full-res iPhone photos
+        maximumSizeInBytes: 500 * 1024 * 1024, // 500 MB — handles full-res iPhone videos
       }),
       onUploadCompleted: async () => {},
     });
