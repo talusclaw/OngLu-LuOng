@@ -122,11 +122,13 @@ export default function Gallery() {
               style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
               onClick={() => setOpen(true)}>
               {isEmbed(preview[idx].url)
-                ? <iframe
-                    src={bentoEmbedUrl(preview[idx].url!)}
-                    style={bentoIframeStyle(preview[idx].url!)}
-                    allow="autoplay; fullscreen"
-                  />
+                ? preview[idx].url!.includes("youtube")
+                  ? <iframe
+                      src={bentoEmbedUrl(preview[idx].url!)}
+                      style={bentoIframeStyle(preview[idx].url!)}
+                      allow="autoplay; fullscreen"
+                    />
+                  : <EmbedBadge url={preview[idx].url!} />
                 : isVideo(preview[idx].url)
                   ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
                   // eslint-disable-next-line @next/next/no-img-element
