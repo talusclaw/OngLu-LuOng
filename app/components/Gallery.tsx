@@ -36,6 +36,20 @@ function EmbedBadge({ url }: { url: string }) {
   );
 }
 
+function bentoEmbedUrl(url: string) {
+  if (url.includes("youtube.com/embed")) {
+    return url.includes("mute=") ? url : url + (url.includes("?") ? "&" : "?") + "mute=1";
+  }
+  return url;
+}
+
+function bentoIframeStyle(url: string): React.CSSProperties {
+  if (url.includes("tiktok")) {
+    return { position: "absolute", width: "100%", height: "177.78%", top: "50%", transform: "translateY(-50%)", border: "none", pointerEvents: "none" };
+  }
+  return { position: "absolute", height: "100%", width: "177.78%", left: "50%", transform: "translateX(-50%)", border: "none", pointerEvents: "none" };
+}
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -105,7 +119,11 @@ export default function Gallery() {
               style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
               onClick={() => setOpen(true)}>
               {isEmbed(preview[idx].url)
-                ? <EmbedBadge url={preview[idx].url!} />
+                ? <iframe
+                    src={bentoEmbedUrl(preview[idx].url!)}
+                    style={bentoIframeStyle(preview[idx].url!)}
+                    allow="autoplay; fullscreen"
+                  />
                 : isVideo(preview[idx].url)
                   ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
                   // eslint-disable-next-line @next/next/no-img-element
