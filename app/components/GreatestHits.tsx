@@ -144,13 +144,31 @@ export default function GreatestHits() {
             style={{ maxWidth: 520, maxHeight: "85vh", background: "var(--bg-light)", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
             onClick={(e) => e.stopPropagation()}>
 
-            {/* Photo / Video */}
+            {/* Cover media */}
             {(selected.coverPhoto || selected.photos?.[0]) && (
               isVideo(selected.coverPhoto || selected.photos?.[0])
-                ? <video src={selected.coverPhoto || selected.photos?.[0]!} className="w-full object-cover" style={{ height: 240 }} muted playsInline controls />
+                ? <video src={selected.coverPhoto || selected.photos?.[0]!} className="w-full object-cover" style={{ height: 240 }} playsInline controls />
                 // eslint-disable-next-line @next/next/no-img-element
                 : <img src={selected.coverPhoto || selected.photos?.[0]} alt={selected.dish} className="w-full object-cover" style={{ height: 240 }} />
             )}
+
+            {/* Additional media strip */}
+            {selected.photos && selected.photos.length > 1 && (() => {
+              const rest = selected.photos.filter((u) => u !== (selected.coverPhoto || selected.photos?.[0]));
+              return rest.length > 0 ? (
+                <div className="flex gap-2 overflow-x-auto px-4 pt-3 pb-1" style={{ scrollbarWidth: "thin" }}>
+                  {rest.map((url) => (
+                    <div key={url} className="shrink-0 rounded-xl overflow-hidden" style={{ width: 100, height: 100 }}>
+                      {isVideo(url)
+                        ? <video src={url} className="w-full h-full object-cover" playsInline controls style={{ width: 100, height: 100 }} />
+                        // eslint-disable-next-line @next/next/no-img-element
+                        : <img src={url} alt="" className="w-full h-full object-cover" />
+                      }
+                    </div>
+                  ))}
+                </div>
+              ) : null;
+            })()}
 
             {/* Close button */}
             <button

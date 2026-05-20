@@ -73,7 +73,7 @@ export default function Gallery() {
               style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
               onClick={() => setOpen(true)}>
               {isVideo(preview[idx].url)
-                ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
+                ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" playsInline loop controls />
                 // eslint-disable-next-line @next/next/no-img-element
                 : <img
                     src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
@@ -161,7 +161,7 @@ export default function Gallery() {
                   className="group relative overflow-hidden rounded-xl"
                   style={{ aspectRatio: "1 / 1", border: "1px solid rgba(255,255,255,0.06)" }}>
                   {isVideo(item.url)
-                    ? <video src={item.url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
+                    ? <video src={item.url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" playsInline loop controls />
                     // eslint-disable-next-line @next/next/no-img-element
                     : <img
                         src={item.url || `https://picsum.photos/seed/${item.id * 10}/400/400`}

@@ -90,7 +90,7 @@ export default function Timeline() {
                   <div className="glass-dark rounded-2xl mt-6 mx-4 w-64 overflow-hidden">
                     {item.photo && (
                       isVideo(item.photo)
-                        ? <video src={item.photo} className="w-full object-cover" style={{ height: 140 }} muted playsInline loop autoPlay />
+                        ? <video src={item.photo} className="w-full object-cover" style={{ height: 140 }} playsInline loop controls />
                         // eslint-disable-next-line @next/next/no-img-element
                         : <img src={item.photo} alt={item.title} className="w-full object-cover" style={{ height: 140 }} />
                     )}
