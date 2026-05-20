@@ -48,18 +48,24 @@ function shuffle<T>(arr: T[]): T[] {
 export default function Gallery() {
   const gallery = content.gallery as GalleryItem[];
   const [open, setOpen] = useState(false);
+  const [lightboxEmbed, setLightboxEmbed] = useState<string | null>(null);
   const [preview] = useState<GalleryItem[]>(() => shuffle(gallery).slice(0, 6));
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (lightboxEmbed) setLightboxEmbed(null);
+        else setOpen(false);
+      }
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [open, lightboxEmbed]);
 
   return (
     <section id="gallery" className="py-28 px-6"
@@ -150,6 +156,36 @@ export default function Gallery() {
         </div>
       </div>
 
+      {/* ── Embed lightbox (TikTok / YouTube) — fresh iframe on each open ── */}
+      {open && lightboxEmbed && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 animate-fade-in"
+          style={{ background: "rgba(0,0,0,0.95)", backdropFilter: "blur(8px)" }}
+          onClick={() => setLightboxEmbed(null)}>
+          <div
+            style={{
+              aspectRatio: embedAspect(lightboxEmbed),
+              width: lightboxEmbed.includes("tiktok") ? "min(380px, 90vw)" : "min(820px, 90vw)",
+              maxHeight: "90vh",
+            }}
+            onClick={(e) => e.stopPropagation()}>
+            <iframe
+              key={lightboxEmbed}
+              src={lightboxEmbed}
+              className="w-full h-full"
+              allow="autoplay; fullscreen"
+              style={{ border: "none", borderRadius: 12 }}
+            />
+          </div>
+          <button
+            onClick={() => setLightboxEmbed(null)}
+            className="absolute top-5 right-5 w-11 h-11 rounded-full flex items-center justify-center transition-opacity hover:opacity-60"
+            style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", fontSize: "1.1rem" }}>
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* ── Full gallery modal ── */}
       {open && (
         <div
@@ -188,11 +224,22 @@ export default function Gallery() {
                 <div key={item.id}
                   className="group relative overflow-hidden rounded-xl"
                   style={{
-                    aspectRatio: isEmbed(item.url) ? embedAspect(item.url!) : "1 / 1",
+                    aspectRatio: "1 / 1",
                     border: "1px solid rgba(255,255,255,0.06)",
-                  }}>
+                    cursor: isEmbed(item.url) ? "pointer" : undefined,
+                  }}
+                  onClick={isEmbed(item.url) ? () => setLightboxEmbed(item.url!) : undefined}>
                   {isEmbed(item.url)
-                    ? <iframe src={item.url!} className="w-full h-full" allow="autoplay; fullscreen" style={{ border: "none" }} />
+                    ? <>
+                        <EmbedBadge url={item.url!} />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                          style={{ background: "rgba(0,0,0,0.35)" }}>
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center"
+                            style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.3)" }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
+                          </div>
+                        </div>
+                      </>
                     : isVideo(item.url)
                       ? <video src={item.url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" playsInline loop controls />
                       // eslint-disable-next-line @next/next/no-img-element
