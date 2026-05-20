@@ -6,10 +6,11 @@ export async function GET(request: Request) {
   if (!url) return NextResponse.json({ error: "Missing url" }, { status: 400 });
 
   // YouTube — no resolution needed
-  const ytFull  = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/);
-  const ytShort = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
-  if (ytFull || ytShort) {
-    const id = (ytFull ?? ytShort)![1];
+  const ytFull   = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/);
+  const ytShort  = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  const ytShorts = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
+  if (ytFull || ytShort || ytShorts) {
+    const id = (ytFull ?? ytShort ?? ytShorts)![1];
     return NextResponse.json({ type: "youtube", embedUrl: `https://www.youtube.com/embed/${id}?autoplay=1` });
   }
 
