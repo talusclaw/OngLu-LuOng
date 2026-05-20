@@ -40,6 +40,9 @@ function bentoEmbedUrl(url: string) {
   if (url.includes("youtube.com/embed")) {
     return url.includes("mute=") ? url : url + (url.includes("?") ? "&" : "?") + "mute=1";
   }
+  if (url.includes("tiktok.com/embed")) {
+    return url.includes("autoplay=") ? url : url + (url.includes("?") ? "&" : "?") + "autoplay=1&muted=1";
+  }
   return url;
 }
 
