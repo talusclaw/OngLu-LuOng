@@ -110,15 +110,19 @@ function AddButton({ onClick, label, color = P }: { onClick: () => void; label: 
   );
 }
 
-function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDelete }: {
+function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onUrlSet, onDelete }: {
   item: GalleryItem; index: number;
   onCaptionChange: (v: string) => void;
   onFocalChange: (x: number, y: number) => void;
   onUpload: (f: File) => Promise<void>;
+  onUrlSet: (url: string) => void;
   onDelete: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const [linkInput, setLinkInput] = useState("");
+  const [resolving, setResolving] = useState(false);
+  const [resolveError, setResolveError] = useState("");
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -126,6 +130,18 @@ function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDe
     setUploading(true);
     await onUpload(file);
     setUploading(false);
+  }
+
+  async function handleLinkEmbed() {
+    if (!linkInput.trim()) return;
+    setResolving(true); setResolveError("");
+    try {
+      const res = await fetch(`/api/resolve-embed?url=${encodeURIComponent(linkInput.trim())}`);
+      const data = await res.json();
+      if (data.embedUrl) { onUrlSet(data.embedUrl); setLinkInput(""); }
+      else setResolveError(data.error ?? "Could not detect video link.");
+    } catch { setResolveError("Network error."); }
+    finally { setResolving(false); }
   }
 
   function handleFocalClick(e: React.MouseEvent<HTMLDivElement>) {
@@ -185,6 +201,25 @@ function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDe
       </div>
       <div className="p-4 flex flex-col gap-3">
         <Field label={`Item ${index + 1} Caption`} value={item.caption} onChange={onCaptionChange} placeholder="A wonderful moment…" />
+        {/* Social video link */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>Or paste a TikTok / YouTube link</label>
+          <div className="flex gap-2">
+            <input
+              type="text" value={linkInput} onChange={(e) => setLinkInput(e.target.value)}
+              placeholder="https://www.tiktok.com/t/…"
+              onKeyDown={(e) => e.key === "Enter" && handleLinkEmbed()}
+              style={{ flex: 1, padding: "8px 10px", borderRadius: 6, border: `1.5px solid ${B}`, fontFamily: "var(--font-inter)", fontSize: 13, color: D, background: "#F5F3FF", outline: "none" }}
+              onFocus={(e) => (e.target.style.borderColor = P)}
+              onBlur={(e) => (e.target.style.borderColor = B)} />
+            <button onClick={handleLinkEmbed} disabled={resolving || !linkInput.trim()}
+              className="text-xs px-3 py-1.5 rounded-lg transition-opacity disabled:opacity-40"
+              style={{ background: P, color: "#fff", fontFamily: "var(--font-inter)", whiteSpace: "nowrap" }}>
+              {resolving ? "…" : "Embed"}
+            </button>
+          </div>
+          {resolveError && <p className="text-xs" style={{ color: "#991B1B", fontFamily: "var(--font-inter)" }}>{resolveError}</p>}
+        </div>
         <div className="flex items-center gap-2">
           {item.url && (
             <button onClick={() => inputRef.current?.click()}
@@ -203,13 +238,17 @@ function PhotoCard({ item, index, onCaptionChange, onFocalChange, onUpload, onDe
   );
 }
 
-function PhotoUpload({ photo, onUpload, onRemove }: {
+function PhotoUpload({ photo, onUpload, onUrlSet, onRemove }: {
   photo: string | null;
   onUpload: (f: File) => Promise<void>;
+  onUrlSet: (url: string) => void;
   onRemove: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const [linkInput, setLinkInput] = useState("");
+  const [resolving, setResolving] = useState(false);
+  const [resolveError, setResolveError] = useState("");
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -220,6 +259,21 @@ function PhotoUpload({ photo, onUpload, onRemove }: {
     if (inputRef.current) inputRef.current.value = "";
   }
 
+  async function handleLinkEmbed() {
+    if (!linkInput.trim()) return;
+    setResolving(true); setResolveError("");
+    try {
+      const res = await fetch(`/api/resolve-embed?url=${encodeURIComponent(linkInput.trim())}`);
+      const data = await res.json();
+      if (data.embedUrl) { onUrlSet(data.embedUrl); setLinkInput(""); }
+      else setResolveError(data.error ?? "Could not detect video link.");
+    } catch { setResolveError("Network error."); }
+    finally { setResolving(false); }
+  }
+
+  const isEmbedUrl = (u: string | null) => !!u && (u.includes("tiktok.com/embed") || u.includes("youtube.com/embed"));
+  const isVideoUrl = (u: string | null) => !!u && /\.(mp4|mov|webm|avi|m4v|mkv)(\?|$)/i.test(u);
+
   return (
     <div className="flex flex-col gap-2">
       <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>
@@ -228,12 +282,22 @@ function PhotoUpload({ photo, onUpload, onRemove }: {
       <div
         className="relative w-full rounded-xl overflow-hidden cursor-pointer group"
         style={{ height: 140, background: "#EDE9FE", border: `1.5px dashed ${B}` }}
-        onClick={() => inputRef.current?.click()}>
+        onClick={() => !isEmbedUrl(photo) && inputRef.current?.click()}>
         {photo ? (
-          isVideo(photo)
-            ? <video src={photo} className="w-full h-full object-cover" muted playsInline loop autoPlay />
+          isEmbedUrl(photo) ? (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-1"
+              style={{ background: photo.includes("tiktok") ? "#010101" : "#1a1a1a" }}>
+              <p className="text-xs font-medium" style={{ color: "#fff", fontFamily: "var(--font-inter)" }}>
+                {photo.includes("tiktok") ? "TikTok" : "YouTube"} embedded
+              </p>
+              <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-inter)" }}>Remove to replace</p>
+            </div>
+          ) : isVideoUrl(photo) ? (
+            <video src={photo} className="w-full h-full object-cover" muted playsInline loop autoPlay />
+          ) : (
             // eslint-disable-next-line @next/next/no-img-element
-            : <img src={photo} alt="Event photo" className="w-full h-full object-cover" />
+            <img src={photo} alt="Event photo" className="w-full h-full object-cover" />
+          )
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-2">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={P} strokeWidth="1.5">
@@ -244,12 +308,31 @@ function PhotoUpload({ photo, onUpload, onRemove }: {
             </p>
           </div>
         )}
-        {photo && (
+        {photo && !isEmbedUrl(photo) && (
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <p className="text-white text-sm">{uploading ? "Uploading…" : "Click to replace"}</p>
           </div>
         )}
         <input ref={inputRef} type="file" accept="image/*,video/*" className="hidden" onChange={handleFile} />
+      </div>
+      {/* Social video link input */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs uppercase tracking-widest" style={{ color: G, fontFamily: "var(--font-inter)" }}>Or paste a TikTok / YouTube link</label>
+        <div className="flex gap-2">
+          <input
+            type="text" value={linkInput} onChange={(e) => setLinkInput(e.target.value)}
+            placeholder="https://www.tiktok.com/t/…"
+            onKeyDown={(e) => e.key === "Enter" && handleLinkEmbed()}
+            style={{ flex: 1, padding: "8px 10px", borderRadius: 6, border: `1.5px solid ${B}`, fontFamily: "var(--font-inter)", fontSize: 13, color: D, background: "#F5F3FF", outline: "none" }}
+            onFocus={(e) => (e.target.style.borderColor = P)}
+            onBlur={(e) => (e.target.style.borderColor = B)} />
+          <button onClick={handleLinkEmbed} disabled={resolving || !linkInput.trim()}
+            className="text-xs px-3 py-1.5 rounded-lg transition-opacity disabled:opacity-40"
+            style={{ background: P, color: "#fff", fontFamily: "var(--font-inter)", whiteSpace: "nowrap" }}>
+            {resolving ? "…" : "Embed"}
+          </button>
+        </div>
+        {resolveError && <p className="text-xs" style={{ color: "#991B1B", fontFamily: "var(--font-inter)" }}>{resolveError}</p>}
       </div>
       {photo && (
         <button onClick={onRemove} className="text-xs px-3 py-1 rounded-lg self-start transition-opacity hover:opacity-70"
@@ -462,6 +545,9 @@ export default function AdminPage() {
   const updateGalleryCaption = (i: number, caption: string) => upd((c) => {
     const gallery = [...c.gallery]; gallery[i] = { ...gallery[i], caption }; return { ...c, gallery };
   });
+  const updateGalleryUrl = (i: number, url: string) => upd((c) => {
+    const gallery = [...c.gallery]; gallery[i] = { ...gallery[i], url }; return { ...c, gallery };
+  });
   const updateGalleryFocal = (i: number, focalX: number, focalY: number) => upd((c) => {
     const gallery = [...c.gallery]; gallery[i] = { ...gallery[i], focalX, focalY }; return { ...c, gallery };
   });
@@ -572,6 +658,11 @@ export default function AdminPage() {
                   <PhotoUpload
                     photo={item.photo ?? null}
                     onUpload={(f) => handleTimelinePhotoUpload(i, f)}
+                    onUrlSet={(url) => upd((c) => {
+                      const timeline = [...c.timeline];
+                      timeline[i] = { ...timeline[i], photo: url };
+                      return { ...c, timeline };
+                    })}
                     onRemove={() => {
                       upd((c) => {
                         const timeline = [...c.timeline];
@@ -672,6 +763,7 @@ export default function AdminPage() {
                     onCaptionChange={(v) => updateGalleryCaption(i, v)}
                     onFocalChange={(x, y) => updateGalleryFocal(i, x, y)}
                     onUpload={(f) => handlePhotoUpload(i, f)}
+                    onUrlSet={(url) => updateGalleryUrl(i, url)}
                     onDelete={() => removePhoto(i)} />
                 ))}
               </div>

@@ -8,6 +8,12 @@ type TimelineItem = { id: number; date: string; emoji: string; title: string; de
 function isVideo(url: string | null | undefined) {
   return !!url && /\.(mp4|mov|webm|avi|m4v|mkv)(\?|$)/i.test(url);
 }
+function isEmbed(url: string | null | undefined) {
+  return !!url && (url.includes("tiktok.com/embed") || url.includes("youtube.com/embed"));
+}
+function embedAspect(url: string) {
+  return url.includes("tiktok") ? "9/16" : "16/9";
+}
 
 export default function Timeline() {
   const timeline = content.timeline as TimelineItem[];
@@ -89,10 +95,14 @@ export default function Timeline() {
                   {/* Card */}
                   <div className="glass-dark rounded-2xl mt-6 mx-4 w-64 overflow-hidden">
                     {item.photo && (
-                      isVideo(item.photo)
-                        ? <video src={item.photo} className="w-full object-cover" style={{ height: 140 }} playsInline loop controls />
-                        // eslint-disable-next-line @next/next/no-img-element
-                        : <img src={item.photo} alt={item.title} className="w-full object-cover" style={{ height: 140 }} />
+                      isEmbed(item.photo)
+                        ? <div style={{ aspectRatio: embedAspect(item.photo), width: "100%", maxHeight: 300, overflow: "hidden" }}>
+                            <iframe src={item.photo} className="w-full h-full" allow="autoplay; fullscreen" style={{ border: "none" }} />
+                          </div>
+                        : isVideo(item.photo)
+                          ? <video src={item.photo} className="w-full object-cover" style={{ height: 140 }} playsInline loop controls />
+                          // eslint-disable-next-line @next/next/no-img-element
+                          : <img src={item.photo} alt={item.title} className="w-full object-cover" style={{ height: 140 }} />
                     )}
                     <div className="p-6">
                       <p className="text-4xl mb-4">{item.emoji}</p>

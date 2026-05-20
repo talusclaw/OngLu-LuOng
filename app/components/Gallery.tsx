@@ -9,6 +9,32 @@ type GalleryItem = { id: number; caption: string; url?: string | null; focalX?: 
 function isVideo(url: string | null | undefined) {
   return !!url && /\.(mp4|mov|webm|avi|m4v|mkv)(\?|$)/i.test(url);
 }
+function isEmbed(url: string | null | undefined) {
+  return !!url && (url.includes("tiktok.com/embed") || url.includes("youtube.com/embed"));
+}
+function embedAspect(url: string) {
+  return url.includes("tiktok") ? "9/16" : "16/9";
+}
+function EmbedBadge({ url }: { url: string }) {
+  const isTikTok = url.includes("tiktok");
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center gap-2"
+      style={{ background: isTikTok ? "#010101" : "#1a1a1a" }}>
+      {isTikTok ? (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M22.5 6.5c.9 1.1 2.2 1.8 3.5 2v3.5a9.5 9.5 0 01-3.5-.7v7.7a7 7 0 11-7-7c.2 0 .5 0 .7.02v3.6c-.2-.03-.5-.05-.7-.05a3.5 3.5 0 100 7 3.5 3.5 0 003.5-3.5V6.5h3.5z" fill="white"/>
+        </svg>
+      ) : (
+        <svg width="32" height="22" viewBox="0 0 32 22" fill="none">
+          <path d="M31.3 3.4A4 4 0 0028.5.6C26 0 16 0 16 0S6 0 3.5.6A4 4 0 00.7 3.4C0 5.9 0 11 0 11s0 5.1.7 7.6A4 4 0 003.5 21.4C6 22 16 22 16 22s10 0 12.5-.6a4 4 0 002.8-2.8C32 16.1 32 11 32 11s0-5.1-.7-7.6zM13 15.5V6.5l8.5 4.5-8.5 4.5z" fill="#FF0000"/>
+        </svg>
+      )}
+      <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.65rem", fontFamily: "var(--font-inter)", letterSpacing: "0.1em" }}>
+        {isTikTok ? "TIKTOK" : "YOUTUBE"}
+      </p>
+    </div>
+  );
+}
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -72,15 +98,17 @@ export default function Gallery() {
               className="group relative overflow-hidden rounded-2xl cursor-pointer"
               style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
               onClick={() => setOpen(true)}>
-              {isVideo(preview[idx].url)
-                ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
-                // eslint-disable-next-line @next/next/no-img-element
-                : <img
-                    src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
-                    alt={preview[idx].caption}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    style={{ objectPosition: `${preview[idx].focalX ?? 50}% ${preview[idx].focalY ?? 50}%` }}
-                  />
+              {isEmbed(preview[idx].url)
+                ? <EmbedBadge url={preview[idx].url!} />
+                : isVideo(preview[idx].url)
+                  ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
+                  // eslint-disable-next-line @next/next/no-img-element
+                  : <img
+                      src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
+                      alt={preview[idx].caption}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      style={{ objectPosition: `${preview[idx].focalX ?? 50}% ${preview[idx].focalY ?? 50}%` }}
+                    />
               }
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
                 style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
@@ -159,16 +187,21 @@ export default function Gallery() {
               {gallery.map((item) => (
                 <div key={item.id}
                   className="group relative overflow-hidden rounded-xl"
-                  style={{ aspectRatio: "1 / 1", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  {isVideo(item.url)
-                    ? <video src={item.url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" playsInline loop controls />
-                    // eslint-disable-next-line @next/next/no-img-element
-                    : <img
-                        src={item.url || `https://picsum.photos/seed/${item.id * 10}/400/400`}
-                        alt={item.caption}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
-                      />
+                  style={{
+                    aspectRatio: isEmbed(item.url) ? embedAspect(item.url!) : "1 / 1",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                  }}>
+                  {isEmbed(item.url)
+                    ? <iframe src={item.url!} className="w-full h-full" allow="autoplay; fullscreen" style={{ border: "none" }} />
+                    : isVideo(item.url)
+                      ? <video src={item.url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" playsInline loop controls />
+                      // eslint-disable-next-line @next/next/no-img-element
+                      : <img
+                          src={item.url || `https://picsum.photos/seed/${item.id * 10}/400/400`}
+                          alt={item.caption}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
+                        />
                   }
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none"
                     style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
