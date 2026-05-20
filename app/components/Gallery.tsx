@@ -73,7 +73,7 @@ export default function Gallery() {
               style={{ gridArea: area, border: "1px solid rgba(255,255,255,0.06)" }}
               onClick={() => setOpen(true)}>
               {isVideo(preview[idx].url)
-                ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" playsInline loop controls />
+                ? <video src={preview[idx].url!} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" muted playsInline loop autoPlay />
                 // eslint-disable-next-line @next/next/no-img-element
                 : <img
                     src={preview[idx].url || `https://picsum.photos/seed/${preview[idx].id * 10}/600/600`}
@@ -170,7 +170,7 @@ export default function Gallery() {
                         style={{ objectPosition: `${item.focalX ?? 50}% ${item.focalY ?? 50}%` }}
                       />
                   }
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3"
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 pointer-events-none"
                     style={{ background: "linear-gradient(to top, rgba(16,12,36,0.85) 0%, transparent 55%)" }}>
                     <p className="font-display font-light text-sm" style={{ color: "rgba(255,255,255,0.9)", fontSize: "0.85rem" }}>
                       {item.caption}
